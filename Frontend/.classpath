@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="assets"/>
-	<classpathentry kind="lib" path="C:/Users/Hugo/Desktop/libGDX/Jars/gdx-1.9.10.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Hugo/Desktop/libGDX/Jars/gdx-backend-lwjgl-1.9.10.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Hugo/Desktop/libGDX/Jars/gdx-platform-1.9.10-natives-desktop.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Hugo/Desktop/libGDX/Jars/jinput-2.0.5.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Hugo/Desktop/libGDX/Jars/jinput-platform-2.0.5-natives-linux.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Hugo/Desktop/libGDX/Jars/jinput-platform-2.0.5-natives-osx.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Hugo/Desktop/libGDX/Jars/jinput-platform-2.0.5-natives-windows.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Hugo/Desktop/libGDX/Jars/jlayer-1.0.1-gdx.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Hugo/Desktop/libGDX/Jars/jorbis-0.0.17.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Hugo/Desktop/libGDX/Jars/jutils-1.0.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Hugo/Desktop/libGDX/Jars/lwjgl_util-2.9.3.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Hugo/Desktop/libGDX/Jars/lwjgl-2.9.3.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Hugo/Desktop/libGDX/Jars/lwjgl-platform-2.9.3-natives-linux.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Hugo/Desktop/libGDX/Jars/lwjgl-platform-2.9.3-natives-osx.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Hugo/Desktop/libGDX/Jars/lwjgl-platform-2.9.3-natives-windows.jar"/>
+	<classpathentry kind="lib" path="C:/Users/hugo.blommaskog/Desktop/libGDX Jars/gdx-1.9.10.jar"/>
+	<classpathentry kind="lib" path="C:/Users/hugo.blommaskog/Desktop/libGDX Jars/gdx-backend-lwjgl-1.9.10.jar"/>
+	<classpathentry kind="lib" path="C:/Users/hugo.blommaskog/Desktop/libGDX Jars/gdx-platform-1.9.10-natives-desktop.jar"/>
+	<classpathentry kind="lib" path="C:/Users/hugo.blommaskog/Desktop/libGDX Jars/jinput-2.0.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/hugo.blommaskog/Desktop/libGDX Jars/jinput-platform-2.0.5-natives-linux.jar"/>
+	<classpathentry kind="lib" path="C:/Users/hugo.blommaskog/Desktop/libGDX Jars/jinput-platform-2.0.5-natives-osx.jar"/>
+	<classpathentry kind="lib" path="C:/Users/hugo.blommaskog/Desktop/libGDX Jars/jinput-platform-2.0.5-natives-windows.jar"/>
+	<classpathentry kind="lib" path="C:/Users/hugo.blommaskog/Desktop/libGDX Jars/jlayer-1.0.1-gdx.jar"/>
+	<classpathentry kind="lib" path="C:/Users/hugo.blommaskog/Desktop/libGDX Jars/jorbis-0.0.17.jar"/>
+	<classpathentry kind="lib" path="C:/Users/hugo.blommaskog/Desktop/libGDX Jars/jutils-1.0.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/hugo.blommaskog/Desktop/libGDX Jars/lwjgl_util-2.9.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/hugo.blommaskog/Desktop/libGDX Jars/lwjgl-2.9.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/hugo.blommaskog/Desktop/libGDX Jars/lwjgl-platform-2.9.3-natives-linux.jar"/>
+	<classpathentry kind="lib" path="C:/Users/hugo.blommaskog/Desktop/libGDX Jars/lwjgl-platform-2.9.3-natives-osx.jar"/>
+	<classpathentry kind="lib" path="C:/Users/hugo.blommaskog/Desktop/libGDX Jars/lwjgl-platform-2.9.3-natives-windows.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
