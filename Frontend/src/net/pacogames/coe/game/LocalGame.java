@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import net.pacogames.coe.Scene;
 import net.pacogames.coe.resources.Resources;
 
-public class Game implements Scene {
+public class LocalGame implements Scene {
 
 private final int VIEWPORT_WIDTH = 3840, VIEWPORT_HEIGHT = 2160;
 	
@@ -27,7 +27,7 @@ private final int VIEWPORT_WIDTH = 3840, VIEWPORT_HEIGHT = 2160;
 	private Player player1;
 	private Player player2;
 	
-	public Game() {
+	public LocalGame() {
 		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
 		viewport = new ExtendViewport(3840, 2160, camera);
@@ -37,12 +37,12 @@ private final int VIEWPORT_WIDTH = 3840, VIEWPORT_HEIGHT = 2160;
 		int[] keys1 = {
 				Keys.W, Keys.D, Keys.S, Keys.A
 		};
-		player1 = new Player(this, keys1, Resources.getTexture("player/red.png"), 1300, new Vector2(-1000, 1000));
+		player1 = new Player(this, keys1, Resources.getTexture("textures/player/red.png"), 1300, new Vector2(-1000, 1000));
 		
 		int[] keys2 = {
 				Keys.UP, Keys.RIGHT, Keys.DOWN, Keys.LEFT
 		};
-		player2 = new Player(this, keys2, Resources.getTexture("player/blue.png"), 1500, new Vector2(800, 1800));
+		player2 = new Player(this, keys2, Resources.getTexture("textures/player/blue.png"), 1500, new Vector2(800, 1800));
 	}
 	
 	@Override

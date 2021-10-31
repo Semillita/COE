@@ -12,7 +12,7 @@ public class Player {
 	private static final float RETARDATION = 100;
 	private static final int WIDTH = 80, HEIGHT = 160;
 	
-	private Game game;
+	private LocalGame game;
 	int[] keys;
 	private Texture texture;
 	private PlayerHitbox hitbox;
@@ -21,7 +21,7 @@ public class Player {
 	Vector2 momentum;
 	Vector2 origin;
 	
-	public Player(Game game, int[] keys, Texture texture, int x, Vector2 momentum) {
+	public Player(LocalGame game, int[] keys, Texture texture, int x, Vector2 momentum) { 
 		this.game = game;
 		this.keys = keys;
 		this.texture = texture;
@@ -37,9 +37,6 @@ public class Player {
 	
 	public void render(Batch batch, double deltaTime) {
 		float decrease = (float) (RETARDATION * deltaTime);
-		
-		float absX = Math.abs(momentum.x);
-		float absY = Math.abs(momentum.y);
 		
 		float absDecY = (float) Math.sqrt(Math.pow(decrease, 2) / (Math.pow(momentum.x / momentum.y, 2) + 1));
 		float absDecX = Math.abs(absDecY * (momentum.x / momentum.y));

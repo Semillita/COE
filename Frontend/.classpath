@@ -25,5 +25,6 @@
 	<classpathentry kind="lib" path="C:/Users/Hugo/Desktop/Jackson Jars/jackson-annotations-2.13.0-rc1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Hugo/Desktop/Jackson Jars/jackson-core-2.13.0-rc1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Hugo/Desktop/Jackson Jars/jackson-databind-2.13.0-rc1.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Logic"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

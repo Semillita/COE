@@ -26,3 +26,4 @@ hs_err_pid*
 # Classpath files
 *.classpath
 /Frontend/.classpath
+/.recommenders/

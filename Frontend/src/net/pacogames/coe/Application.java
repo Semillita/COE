@@ -5,7 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import net.pacogames.coe.game.Game;
+import net.pacogames.coe.game.LocalGame;
 import net.pacogames.coe.menu.MainMenu;
 
 public class Application extends ApplicationAdapter {
@@ -18,7 +18,7 @@ public class Application extends ApplicationAdapter {
 	@Override
 	public void create() {
 		batch = new SpriteBatch();
-		scene = new Game();
+		scene = new LocalGame();
 		
 		//Borderless windowed fullscreen
 		System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
