@@ -1,8 +1,14 @@
 package net.pacogames.coe.game;
 
+import java.awt.Point;
+
 public class PlayerHitbox implements Hitbox {
 
 	private final float x, y;
+	
+	public PlayerHitbox(Point p) {
+		this(p.x, p.y);
+	}
 	
 	public PlayerHitbox(float x, float y) {
 		this.x = x;
