@@ -1,6 +1,6 @@
 package net.pacogames.coe.game;
 
-import java.awt.Point;
+import net.pacogames.coe.utils.Point;
 
 public class PlayerHitbox implements Hitbox {
 

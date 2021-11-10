@@ -12,7 +12,7 @@ public class Frame {
 	public PlayerFrameData player1data;
 	public PlayerFrameData player2data;
 	
-	public Frame(long timeStamp, Map<Key, Boolean> inputs, PlayerFrameData player1, PlayerFrameData player2) {
+	public Frame(long timeStamp, PlayerFrameData player1, PlayerFrameData player2) {
 		this.timeStamp = timeStamp;
 		
 	}

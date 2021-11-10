@@ -28,10 +28,6 @@ private final int VIEWPORT_WIDTH = 3840, VIEWPORT_HEIGHT = 2160;
 	private Player player2;
 	
 	public LocalGame() {
-		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
-		viewport = new ExtendViewport(3840, 2160, camera);
-		
 		arena = new Arena();
 		
 		int[] keys1 = {
@@ -54,8 +50,22 @@ private final int VIEWPORT_WIDTH = 3840, VIEWPORT_HEIGHT = 2160;
 		
 		arena.render(batch);
 	}
+	
+	@Override
+	public void resize(int width, int height) {
+		viewport.update(width, height, true);
+		camera.position.set(VIEWPORT_WIDTH / 2f, VIEWPORT_HEIGHT / 2f, 0);
+		viewport.apply();
+		
+	}
+	
+	private void initCameraViewport() {
+		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
+		viewport = new ExtendViewport(3840, 2160, camera);
+	}
 
-	public void playerWalk(Player player, int movementX, int movementY, float speed, double deltaTime) {
+	/*public void playerWalk(Player player, int movementX, int movementY, float speed, double deltaTime) {
 		movementX *= speed * deltaTime;
 		movementY *= speed * deltaTime;
 		
@@ -90,9 +100,9 @@ private final int VIEWPORT_WIDTH = 3840, VIEWPORT_HEIGHT = 2160;
 		
 		player.setPosition(player.getX() + movementX, player.getY() + movementY);
 		
-	}
+	}*/
 	
-	public void playerApplyMomentum(Player player, Vector2 momentum, double deltaTime) {
+	/*public void playerApplyMomentum(Player player, Vector2 momentum, double deltaTime) {
 		float movementX = (float) (momentum.x * deltaTime);
 		float movementY = (float) (momentum.y * deltaTime);
 				
@@ -132,21 +142,21 @@ private final int VIEWPORT_WIDTH = 3840, VIEWPORT_HEIGHT = 2160;
 			}
 		}
 		player.setPosition(player.getX() + movementX, player.getY() + movementY);
-	}
+	}*/
 	
-	boolean horizontalArenaCollision(Player player, float movementX) {
+	/*boolean horizontalArenaCollision(Player player, float movementX) {
 		Hitbox playerHitbox = player.getHitbox();
 		Hitbox arenaHitbox = arena.getHitbox();
 		return (playerHitbox.left() + movementX < arenaHitbox.left() || playerHitbox.right() + movementX > arenaHitbox.right());
-	}
+	}*/
 	
-	boolean verticalArenaCollision(Player player, float movementY) {
+	/*boolean verticalArenaCollision(Player player, float movementY) {
 		Hitbox playerHitbox = player.getHitbox();
 		Hitbox arenaHitbox = arena.getHitbox();
 		return (playerHitbox.bottom() + movementY < arenaHitbox.bottom() || playerHitbox.top() + movementY > arenaHitbox.top());
-	}
+	}*/
 	
-	float horizontalPlayerOverlap(Player player, Player opponent, float movementX) {
+	/*float horizontalPlayerOverlap(Player player, Player opponent, float movementX) {
 		Hitbox playerHitbox = player.getHitbox();
 		Hitbox opponentHitbox = opponent.getHitbox();
 		
@@ -156,9 +166,9 @@ private final int VIEWPORT_WIDTH = 3840, VIEWPORT_HEIGHT = 2160;
 		} else {
 			return 0;
 		}
-	}
+	}*/
 	
-	float verticalPlayerOverlap(Player player, Player opponent, float movementY) {
+	/*float verticalPlayerOverlap(Player player, Player opponent, float movementY) {
 		Hitbox playerHitbox = player.getHitbox();
 		Hitbox opponentHitbox = opponent.getHitbox();
 		if(playerHitbox.top() + movementY >= opponentHitbox.bottom() && playerHitbox.bottom() + movementY <= opponentHitbox.top()) {
@@ -167,18 +177,10 @@ private final int VIEWPORT_WIDTH = 3840, VIEWPORT_HEIGHT = 2160;
 		} else {
 			return 0;
 		}
-	}
+	}*/
 	
-	public Arena getArena() {
+	/*public Arena getArena() {
 		return arena;
-	}
-
-	@Override
-	public void resize(int width, int height) {
-		viewport.update(width, height, true);
-		camera.position.set(VIEWPORT_WIDTH / 2f, VIEWPORT_HEIGHT / 2f, 0);
-		viewport.apply();
-		
-	}
+	}*/
 	
 }
