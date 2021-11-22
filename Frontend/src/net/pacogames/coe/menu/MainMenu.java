@@ -13,14 +13,16 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import net.pacogames.coe.Scene;
-import net.pacogames.coe.ui.Button;
-import net.pacogames.coe.ui.ImageButton;
+import net.pacogames.coe.ui.NavBar;
+import net.pacogames.coe.ui.buttons.Button;
+import net.pacogames.coe.ui.buttons.ImageButton;
 
 public class MainMenu implements Scene {
 	
 	private Camera camera;
 	private Viewport viewport;
 	private Button button;
+	private NavBar navBar;
 	
 	
 	private final int VIEWPORT_WIDTH = 3840, VIEWPORT_HEIGHT = 2160;
@@ -29,7 +31,9 @@ public class MainMenu implements Scene {
 		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
 		viewport = new ExtendViewport(3840, 2160, camera);
-		this.button = new ImageButton(new Texture("Uchallengingme.png"), camera.viewportWidth / 2, camera.viewportHeight / 2);
+		this.button = new ImageButton(new Texture("Uchallengingme.png"), (int) camera.viewportWidth / 2, (int) camera.viewportHeight / 2, 500, 500);
+		navBar = new NavBar((int) (VIEWPORT_WIDTH - viewport.getWorldWidth())/2, (int) viewport.getWorldHeight() - 200, 
+				(int) viewport.getWorldWidth(), 200);
 		setInputListener();
 	}
 	
@@ -37,13 +41,17 @@ public class MainMenu implements Scene {
 	public void render(Batch batch, double deltaTime) {
 		batch.setProjectionMatrix(camera.combined);
 		button.render(batch);
+		navBar.render(batch);
 	}
 
 	@Override
 	public void resize(int width, int height) {
 		viewport.update(width, height, true);
 		camera.position.set(VIEWPORT_WIDTH / 2f, VIEWPORT_HEIGHT / 2f, 0);
-		viewport.apply();			
+		viewport.apply();		
+		
+		navBar.setBounds((int) (VIEWPORT_WIDTH - viewport.getWorldWidth())/2, (int) viewport.getWorldHeight() - 200, 
+				(int) viewport.getWorldWidth(), 200);
 	}
 	public void setInputListener() {
 		Gdx.input.setInputProcessor(new InputAdapter() {

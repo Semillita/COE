@@ -1,4 +1,4 @@
-package net.pacogames.coe.ui;
+package net.pacogames.coe.ui.buttons;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
