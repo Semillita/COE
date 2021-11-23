@@ -22,8 +22,8 @@ public class MainMenu implements Scene {
 	private Camera camera;
 	private Viewport viewport;
 	private Button button;
+	private MenuPage page;
 	private NavBar navBar;
-	
 	
 	private final int VIEWPORT_WIDTH = 3840, VIEWPORT_HEIGHT = 2160;
 	
@@ -31,16 +31,16 @@ public class MainMenu implements Scene {
 		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
 		viewport = new ExtendViewport(3840, 2160, camera);
-		this.button = new ImageButton(new Texture("Uchallengingme.png"), (int) camera.viewportWidth / 2, (int) camera.viewportHeight / 2, 500, 500);
 		navBar = new NavBar((int) (VIEWPORT_WIDTH - viewport.getWorldWidth())/2, (int) viewport.getWorldHeight() - 200, 
-				(int) viewport.getWorldWidth(), 200);
+				(int) viewport.getWorldWidth(), 200, (page) -> setPage(page));
 		setInputListener();
+		
+		page = new PlayPage();
 	}
 	
 	@Override
 	public void render(Batch batch, double deltaTime) {
 		batch.setProjectionMatrix(camera.combined);
-		button.render(batch);
 		navBar.render(batch);
 	}
 
@@ -52,6 +52,9 @@ public class MainMenu implements Scene {
 		
 		navBar.setBounds((int) (VIEWPORT_WIDTH - viewport.getWorldWidth())/2, (int) viewport.getWorldHeight() - 200, 
 				(int) viewport.getWorldWidth(), 200);
+		
+		System.out.println("Y: " + (int) (viewport.getWorldHeight() - 200));
+		System.out.println(width);
 	}
 	public void setInputListener() {
 		Gdx.input.setInputProcessor(new InputAdapter() {
@@ -62,13 +65,14 @@ public class MainMenu implements Scene {
 				worldCords = camera.unproject(worldCords);
 				x = (int) worldCords.x;
 				y = (int) worldCords.y;
-				Rectangle b = button.getBox();
+				/*Rectangle b = button.getBox();
 				if(b.contains(x, y) && !button.isHovered()){
 					button.hover(true);
 				}
 				if(!b.contains(x, y) && button.isHovered()) {
 					button.hover(false);
-				}
+				}*/
+				navBar.mouseMoved(x, y);
 				return false;
 			}
 
@@ -97,6 +101,12 @@ public class MainMenu implements Scene {
 			}
 			
 		}); 
+	}
+	
+	private void setPage(MenuPage page) {
+		if(page.getClass() != this.page.getClass()) {
+			this.page = page;
+		}
 	}
 
 }

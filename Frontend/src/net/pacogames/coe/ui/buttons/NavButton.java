@@ -3,10 +3,12 @@ package net.pacogames.coe.ui.buttons;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
-public class NavButton extends ImageButton{
+public class NavButton extends ImageButton {
 
-	public NavButton(Texture texture, int x, int y, int width, int height) {
-		super(texture, x, y, width, height);
+	private Runnable onClick;
+	
+	public NavButton(Texture texture, Runnable onClick) {
+		super(texture);
 	}
 	
 	@Override
@@ -16,6 +18,11 @@ public class NavButton extends ImageButton{
 		} else {
 			batch.draw(getTexture(), x - 10, y - 10, width + 20, height + 20);	
 		}
+	}
+	
+	@Override
+	public void hover(boolean hovered) {
+		this.hovered = hovered;
 	}
 	
 }

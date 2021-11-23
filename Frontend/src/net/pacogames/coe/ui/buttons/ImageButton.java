@@ -6,23 +6,14 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class ImageButton implements Button{
 	
-	private static final int BIG_HEIGHT = 600;
-	private static final int BIG_WIDTH = 600;
-	private static final int HEIGHT = 500;
-	private static final int WIDTH = 500;
-	
 	private Texture texture;
 	protected int x, y;
 	protected int width, height;
 	
 	protected boolean hovered = false;
 	
-	public ImageButton(Texture texture, int x, int y, int width, int height) {
+	public ImageButton(Texture texture) {
 		this.texture = texture;
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
 	}
 	
 	public void setBounds(int x, int y, int width, int height) {
@@ -68,7 +59,7 @@ public class ImageButton implements Button{
 	}
 
 	public Rectangle getBox() {
-		return new Rectangle(x, y, WIDTH, HEIGHT);
+		return new Rectangle(x, y, width, height);
 	}
 	
 	public boolean isHovered() {
