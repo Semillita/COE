@@ -57,7 +57,6 @@ public class Player {
 		}
 		
 		if(Gdx.input.isKeyJustPressed(Keys.SPACE)) {
-			System.out.println("h");
 			momentum = new Vector2(origin.x, origin.y);
 		}
 		

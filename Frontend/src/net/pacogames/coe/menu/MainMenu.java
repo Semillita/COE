@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import net.pacogames.coe.Scene;
+import net.pacogames.coe.resources.Resources;
 import net.pacogames.coe.ui.NavBar;
 import net.pacogames.coe.ui.buttons.Button;
 import net.pacogames.coe.ui.buttons.ImageButton;
@@ -24,6 +25,7 @@ public class MainMenu implements Scene {
 	private Button button;
 	private MenuPage page;
 	private NavBar navBar;
+	private Texture bg;
 	
 	private final int VIEWPORT_WIDTH = 3840, VIEWPORT_HEIGHT = 2160;
 	
@@ -36,12 +38,16 @@ public class MainMenu implements Scene {
 		setInputListener();
 		
 		page = new PlayPage();
+		bg = Resources.getTexture("menu/BG.png");
 	}
 	
 	@Override
 	public void render(Batch batch, double deltaTime) {
 		batch.setProjectionMatrix(camera.combined);
+		batch.draw(bg, (viewport.getWorldWidth() - VIEWPORT_WIDTH)/2, (viewport.getWorldHeight() - VIEWPORT_HEIGHT)/2, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
 		navBar.render(batch);
+		page.render(batch);
+		page.resize((int) (viewport.getWorldWidth() - VIEWPORT_WIDTH)/2, (int) viewport.getWorldWidth(), (int) viewport.getWorldHeight() - 200);
 	}
 
 	@Override
@@ -50,11 +56,10 @@ public class MainMenu implements Scene {
 		camera.position.set(VIEWPORT_WIDTH / 2f, VIEWPORT_HEIGHT / 2f, 0);
 		viewport.apply();		
 		
-		navBar.setBounds((int) (VIEWPORT_WIDTH - viewport.getWorldWidth())/2, (int) viewport.getWorldHeight() - 200, 
+		navBar.setBounds((int) (VIEWPORT_WIDTH - viewport.getWorldWidth())/2, (int) (viewport.getWorldHeight() - 200 - (viewport.getWorldHeight() - VIEWPORT_HEIGHT)/2), 
 				(int) viewport.getWorldWidth(), 200);
 		
-		System.out.println("Y: " + (int) (viewport.getWorldHeight() - 200));
-		System.out.println(width);
+		page.resize((int) (viewport.getWorldWidth() - VIEWPORT_WIDTH)/2, (int) viewport.getWorldWidth(), (int) viewport.getWorldHeight() - 200);
 	}
 	public void setInputListener() {
 		Gdx.input.setInputProcessor(new InputAdapter() {
@@ -73,6 +78,7 @@ public class MainMenu implements Scene {
 					button.hover(false);
 				}*/
 				navBar.mouseMoved(x, y);
+				page.mouseMoved(x, y);
 				return false;
 			}
 
@@ -84,7 +90,8 @@ public class MainMenu implements Scene {
 
 			@Override
 			public boolean touchDown(int arg0, int arg1, int arg2, int arg3) {
-				// TODO Auto-generated method stub
+				navBar.click();
+				page.press();
 				return false;
 			}
 

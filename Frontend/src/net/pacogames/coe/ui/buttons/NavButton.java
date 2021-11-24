@@ -9,6 +9,7 @@ public class NavButton extends ImageButton {
 	
 	public NavButton(Texture texture, Runnable onClick) {
 		super(texture);
+		this.onClick = onClick;
 	}
 	
 	@Override
@@ -23,6 +24,12 @@ public class NavButton extends ImageButton {
 	@Override
 	public void hover(boolean hovered) {
 		this.hovered = hovered;
+	}
+	
+	@Override
+	public void press() {
+		super.press();
+		onClick.run();
 	}
 	
 }

@@ -11,6 +11,7 @@ public interface Button {
 	public void press();
 	public void release();
 	public void render(Batch batch);
+	public void mouseMoved(int x, int y);
 	public Rectangle getBox();
 	public boolean isHovered();
 	

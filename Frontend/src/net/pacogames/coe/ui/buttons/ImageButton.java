@@ -11,6 +11,7 @@ public class ImageButton implements Button{
 	protected int width, height;
 	
 	protected boolean hovered = false;
+	protected boolean pressed = false;
 	
 	public ImageButton(Texture texture) {
 		this.texture = texture;
@@ -28,6 +29,19 @@ public class ImageButton implements Button{
 	}
 	
 	@Override
+	public void mouseMoved(int x, int y) {
+		Rectangle b = getBox();
+		if(b.contains(x, y) && !hovered) {
+			hover(true);
+			System.out.println("Hover");
+		}
+		if(!b.contains(x, y) && hovered) {
+			hover(false);
+			System.out.println("Not hover");
+		}
+	}
+	
+	@Override
 	public void hover(boolean hovered) {
 		this.hovered = hovered;
 		// TODO Auto-generated method stub
@@ -36,8 +50,10 @@ public class ImageButton implements Button{
 
 	@Override
 	public void press() {
-		// TODO Auto-generated method stub
-		
+		System.out.println("PRESS");
+		if(hovered) {
+			pressed = true;
+		}
 	}
 
 	@Override

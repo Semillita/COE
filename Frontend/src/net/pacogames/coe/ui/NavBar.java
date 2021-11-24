@@ -33,8 +33,13 @@ public class NavBar {
 		background = new Texture("menu/BlackPixel.png");
 		var settingsTexture = Resources.getTexture("menu/SETTINGS.png");
 		var playTexture = Resources.getTexture("menu/SETTINGS.png");
+		
 		settingsButton = new NavButton(settingsTexture, () -> onButtonClick.accept(new SettingsPage()));
-		playButton = new NavButton(playTexture, () -> onButtonClick.accept(new PlayPage()));
+		playButton = new NavButton(playTexture, () -> {
+			onButtonClick.accept(new PlayPage());
+			System.out.println("daniel");
+		});
+		
 		buttons = new ArrayList<>();
 		buttons.add(settingsButton);
 		buttons.add(playButton);
@@ -58,22 +63,14 @@ public class NavBar {
 	
 	public void mouseMoved(int x, int y) {
 		for(NavButton button : buttons) {
-			Rectangle b = button.getBox();
-			if(b.contains(x, y) && !button.isHovered()){
-				button.hover(true);
-				System.out.println("Hover");
-			}
-			if(!b.contains(x, y) && button.isHovered()) {
-				button.hover(false);
-				System.out.println("Not hover");
-			}
+			button.mouseMoved(x, y);
 		}
-		
-		Rectangle rec = buttons.get(0).getBox();
-		System.out.println(rec.x);
-		System.out.println(rec.y);
-		System.out.println(rec.width);
-		System.out.println(rec.height);
+	}
+	
+	public void click() {
+		for(NavButton button : buttons) {
+			button.press();
+		}
 	}
 	
 	private void positionButtons(final int x, final int y, final int width, final int height) {
