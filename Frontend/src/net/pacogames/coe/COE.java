@@ -11,7 +11,7 @@ public class COE {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = 960;
 		config.height = 540;
-		//config.fullscreen = true;
+		config.fullscreen = true;
 		config.title = "Call of Elysium";
 		
 		app = new Application();

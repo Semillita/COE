@@ -20,7 +20,7 @@ public class Arena {
 	Hitbox hitbox;
 	
 	public Arena() {
-		border = Resources.getTexture("map/arena.png");
+		border = Resources.getTexture("textures/map/arena.png");
 		
 		hitbox = new ArenaHitbox();
 	}
