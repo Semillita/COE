@@ -22,6 +22,9 @@ public class Arena {
 	public Arena() {
 		border = Resources.getTexture("textures/map/arena.png");
 		
+		System.out.println("Arena " + X + " " + Y);
+		System.out.println(WIDTH);
+		System.out.println(HEIGHT);
 		hitbox = new ArenaHitbox();
 	}
 	

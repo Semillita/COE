@@ -27,6 +27,8 @@ private final int VIEWPORT_WIDTH = 3840, VIEWPORT_HEIGHT = 2160;
 	private Player player1;
 	private Player player2;
 	
+	private Texture black;
+	
 	public LocalGame() {
 		arena = new Arena();
 		
@@ -41,6 +43,8 @@ private final int VIEWPORT_WIDTH = 3840, VIEWPORT_HEIGHT = 2160;
 				Keys.UP, Keys.RIGHT, Keys.DOWN, Keys.LEFT
 		};
 		player2 = new Player(this, keys2, Resources.getTexture("textures/player/blue.png"), 1500, new Vector2(800, 1800));
+		
+		black = Resources.getTexture("menu/BlackPixel.png");
 	}
 	
 	@Override
@@ -51,6 +55,8 @@ private final int VIEWPORT_WIDTH = 3840, VIEWPORT_HEIGHT = 2160;
 		player2.render(batch, deltaTime);
 		
 		arena.render(batch);
+		
+		batch.draw(black, 720, 380, 50, 50);
 	}
 	
 	@Override

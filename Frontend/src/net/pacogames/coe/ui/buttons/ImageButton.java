@@ -44,8 +44,6 @@ public class ImageButton implements Button{
 	@Override
 	public void hover(boolean hovered) {
 		this.hovered = hovered;
-		// TODO Auto-generated method stub
-		System.out.println("h");
 	}
 
 	@Override
@@ -53,6 +51,7 @@ public class ImageButton implements Button{
 		System.out.println("PRESS");
 		if(hovered) {
 			pressed = true;
+			onPress();
 		}
 	}
 
@@ -73,6 +72,10 @@ public class ImageButton implements Button{
 		
 		batch.draw(texture, x, y, width, height);
 	}
+	
+	protected void onPress() {
+		
+	};
 
 	public Rectangle getBox() {
 		return new Rectangle(x, y, width, height);

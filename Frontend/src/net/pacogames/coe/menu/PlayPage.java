@@ -2,6 +2,7 @@ package net.pacogames.coe.menu;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -11,17 +12,18 @@ import net.pacogames.coe.resources.Resources;
 import net.pacogames.coe.ui.buttons.NavButton;
 import net.pacogames.coe.ui.buttons.PlayButton;
 
+import static net.pacogames.coe.ui.buttons.PlayButton.Property;
+
 public class PlayPage implements MenuPage {
 	
 	List<PlayButton> buttons;
 	
-	public PlayPage() {
+	public PlayPage(Consumer<Property> onPlay) {
 		buttons = new ArrayList<>();
-		buttons.add(new PlayButton(Resources.getTexture("menu/PlaceholderPlay.png"), null));
-		buttons.add(new PlayButton(Resources.getTexture("menu/PlaceholderPlay.png"), null));
-		buttons.add(new PlayButton(Resources.getTexture("menu/PlaceholderPlay.png"), null));
-		buttons.add(new PlayButton(Resources.getTexture("menu/PlaceholderPlay.png"), null));
-		buttons.add(new PlayButton(Resources.getTexture("menu/PlaceholderPlay.png"), null));
+		buttons.add(new PlayButton(Resources.getTexture("menu/PlaceholderPlay.png"), onPlay, Property.NORMAL));
+		buttons.add(new PlayButton(Resources.getTexture("menu/PlaceholderPlay.png"), onPlay, Property.TRAINING));
+		buttons.add(new PlayButton(Resources.getTexture("menu/PlaceholderPlay.png"), onPlay, Property.CUSTOM));
+		//buttons.add(new PlayButton(Resources.getTexture("menu/PlaceholderPlay.png"), null));
 	}
 	
 	public void render(Batch batch) {

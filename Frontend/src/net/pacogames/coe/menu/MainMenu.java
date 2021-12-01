@@ -17,8 +17,11 @@ import net.pacogames.coe.resources.Resources;
 import net.pacogames.coe.ui.NavBar;
 import net.pacogames.coe.ui.buttons.Button;
 import net.pacogames.coe.ui.buttons.ImageButton;
+import net.pacogames.coe.ui.buttons.PlayButton;
 
 public class MainMenu implements Scene {
+	
+	private final Runnable onPlay;
 	
 	private Camera camera;
 	private Viewport viewport;
@@ -29,15 +32,29 @@ public class MainMenu implements Scene {
 	
 	private final int VIEWPORT_WIDTH = 3840, VIEWPORT_HEIGHT = 2160;
 	
-	public MainMenu() {
+	public MainMenu(Runnable onPlay) {
+		this.onPlay = onPlay;
 		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
 		viewport = new ExtendViewport(3840, 2160, camera);
 		navBar = new NavBar((int) (VIEWPORT_WIDTH - viewport.getWorldWidth())/2, (int) viewport.getWorldHeight() - 200, 
-				(int) viewport.getWorldWidth(), 200, (page) -> setPage(page));
+				(int) viewport.getWorldWidth(), 200, (property) -> {
+					switch(property) {
+					case PLAY:
+						setPage(new PlayPage((prop) -> {
+							if(prop == PlayButton.Property.NORMAL) {
+								onPlay.run();
+							}
+						}));
+					}
+				});
 		setInputListener();
 		
-		page = new PlayPage();
+		page = new PlayPage((prop) -> {
+			if(prop == PlayButton.Property.NORMAL) {
+				onPlay.run();
+			}
+		});
 		bg = Resources.getTexture("menu/BG.png");
 	}
 	

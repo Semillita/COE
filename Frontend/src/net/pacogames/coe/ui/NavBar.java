@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 
 import net.pacogames.coe.menu.MenuPage;
+import net.pacogames.coe.menu.PageProperty;
 import net.pacogames.coe.menu.PlayPage;
 import net.pacogames.coe.menu.SettingsPage;
 import net.pacogames.coe.resources.Resources;
@@ -29,14 +30,14 @@ public class NavBar {
 	
 	List<NavButton> buttons;
 	
-	public NavBar (int x,int y, int width, int height, Consumer<MenuPage> onButtonClick) {
+	public NavBar (int x,int y, int width, int height, Consumer<PageProperty> onButtonClick) {
 		background = new Texture("menu/BlackPixel.png");
 		var settingsTexture = Resources.getTexture("menu/SETTINGS.png");
 		var playTexture = Resources.getTexture("menu/SETTINGS.png");
 		
-		settingsButton = new NavButton(settingsTexture, () -> onButtonClick.accept(new SettingsPage()));
+		settingsButton = new NavButton(settingsTexture, () -> onButtonClick.accept(PageProperty.SETTINGS));
 		playButton = new NavButton(playTexture, () -> {
-			onButtonClick.accept(new PlayPage());
+			onButtonClick.accept(PageProperty.PLAY);
 		});
 		
 		buttons = new ArrayList<>();

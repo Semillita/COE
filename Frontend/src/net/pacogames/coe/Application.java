@@ -15,10 +15,13 @@ public class Application extends ApplicationAdapter {
 	
 	double nanoTime;
 	
+	private int iteration = 0;
+	private int windowWidth, windowHeight;
+	
 	@Override
 	public void create() {
 		batch = new SpriteBatch();
-		scene = new LocalGame();
+		setScene(new MainMenu(() -> setScene(new LocalGame())));
 		
 		//Borderless windowed fullscreen
 		System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
@@ -29,6 +32,11 @@ public class Application extends ApplicationAdapter {
 
 	@Override
 	public void render() {
+		/*
+		 * if (iteration == 1) { scene = new LocalGame(); }
+		 */
+		//iteration += 1;
+		
 		//Clear window
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 	    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -41,11 +49,20 @@ public class Application extends ApplicationAdapter {
 	@Override
 	public void resize(int width, int height) {
 		scene.resize(width, height);
+		windowWidth = width;
+		windowHeight = height;
+
 	}
 	
 	@Override
 	public void dispose() {
 		
+	}
+	
+	private void setScene(Scene scene) {
+		this.scene = scene;
+		scene.resize(windowWidth, windowHeight);
+		batch = new SpriteBatch();
 	}
 	
 	private double getDeltaTime() {
