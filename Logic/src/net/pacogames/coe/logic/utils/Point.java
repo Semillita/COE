@@ -1,4 +1,4 @@
-package net.pacogames.coe.utils;
+package net.pacogames.coe.logic.utils;
 
 public class Point {
 

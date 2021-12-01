@@ -1,4 +1,4 @@
-package net.pacogames.coe.game;
+package net.pacogames.coe.logic.game;
 
 public enum Key {
 	UP, DOWN, RIGHT, LEFT;

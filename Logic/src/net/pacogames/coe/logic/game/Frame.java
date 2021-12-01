@@ -1,4 +1,4 @@
-package net.pacogames.coe.game;
+package net.pacogames.coe.logic.game;
 
 import java.util.List;
 import java.util.Map;

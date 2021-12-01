@@ -1,9 +1,9 @@
-package net.pacogames.coe.game;
+package net.pacogames.coe.logic.game;
 
 import java.util.Map;
 
-import net.pacogames.coe.utils.Point;
-import net.pacogames.coe.utils.Vector2;
+import net.pacogames.coe.logic.utils.Point;
+import net.pacogames.coe.logic.utils.Vector2;
 
 public class PlayerFrameData {
 
