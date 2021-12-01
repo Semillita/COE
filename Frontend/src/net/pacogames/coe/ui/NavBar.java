@@ -37,7 +37,6 @@ public class NavBar {
 		settingsButton = new NavButton(settingsTexture, () -> onButtonClick.accept(new SettingsPage()));
 		playButton = new NavButton(playTexture, () -> {
 			onButtonClick.accept(new PlayPage());
-			System.out.println("daniel");
 		});
 		
 		buttons = new ArrayList<>();
