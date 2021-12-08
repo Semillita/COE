@@ -46,7 +46,7 @@ public class PlayPage implements MenuPage {
 		final int GAP = 400;
 		for(int i = 0; i < buttons.size(); i++) {
 			PlayButton button = buttons.get(i);
-			Texture buttonTexture = button.getTexture();
+			Texture buttonTexture = button.getBody();
 			int xPos = width / 2 - (buttons.size() * buttonTexture.getWidth() + (buttons.size() - 1) * GAP) / 2 + i * (buttonTexture.getWidth() + GAP - x);
 			//int xPos = width / 2 - (buttons.size() * buttonTexture.getWidth() / 2 + buttons.size() * GAP) + i * (buttonTexture.getWidth() + GAP);
 			int yPos = (height/2 - buttonTexture.getHeight()/2);
@@ -55,9 +55,16 @@ public class PlayPage implements MenuPage {
 	}
 
 	@Override
-	public void press() {
+	public void mousePressed(int x, int y) {
 		for(PlayButton button : buttons) {
-			button.press();
+			button.mousePressed(x, y);
 		}
-	}	
+	}
+	
+	@Override
+	public void mouseReleased(int x, int y) {
+		for(PlayButton button : buttons) {
+			button.mouseReleased(x, y);
+		}
+	}
 }

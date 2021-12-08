@@ -24,18 +24,13 @@ private Property property;
 	
 	@Override
 	public void render(Batch batch) {
-		batch.draw(getTexture(), x, y, width, height);	
+		batch.draw(getBody(), x, y, width, height);	
 		if(hovered) {
 			batch.draw(hoverTexture, x, y, width, height);	
 		}
 		if(pressed) {
 			batch.draw(hoverTexture, x, y, width, height);	
 		}
-	}
-	
-	@Override
-	public void hover(boolean hovered) {
-		this.hovered = hovered;
 	}
 	
 	@Override

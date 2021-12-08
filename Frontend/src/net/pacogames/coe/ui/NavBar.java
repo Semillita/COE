@@ -80,7 +80,7 @@ public class NavBar {
 	private void positionButtons(final int x, final int y, final int width, final int height) {
 		int xPos = 10 + x;
 		for(NavButton button : buttons) {
-			Texture buttonTexture = button.getTexture();
+			Texture buttonTexture = button.getBody();
 			int yPos = (height - buttonTexture.getHeight())/2 + y;
 			System.out.println(xPos + ", " + yPos);
 			button.setBounds(xPos, yPos, buttonTexture.getWidth(), buttonTexture.getHeight());

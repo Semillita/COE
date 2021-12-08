@@ -23,7 +23,13 @@ public class SettingsPage implements MenuPage{
 	}
 
 	@Override
-	public void press() {
+	public void mousePressed(int x, int y) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(int x, int y) {
 		// TODO Auto-generated method stub
 		
 	}

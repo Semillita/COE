@@ -3,7 +3,7 @@ package net.pacogames.coe.ui.buttons;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
-public class NavButton extends ImageButton {
+public class NavButton extends Button {
 
 	private Runnable onClick;
 	
@@ -15,20 +15,15 @@ public class NavButton extends ImageButton {
 	@Override
 	public void render(Batch batch) {
 		if(!hovered) {
-			batch.draw(getTexture(), x, y, width, height);	
+			batch.draw(getBody(), x, y, width, height);	
 		} else {
-			batch.draw(getTexture(), x - 10, y - 10, width + 20, height + 20);	
+			batch.draw(getBody(), x - 10, y - 10, width + 20, height + 20);	
 		}
 	}
 	
 	@Override
-	public void hover(boolean hovered) {
-		this.hovered = hovered;
-	}
-	
-	@Override
-	public void press() {
-		super.press();
+	public void onClick() {
+		super.onClick();
 		onClick.run();
 	}
 	

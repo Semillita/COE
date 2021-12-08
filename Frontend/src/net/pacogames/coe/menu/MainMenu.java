@@ -16,7 +16,6 @@ import net.pacogames.coe.Scene;
 import net.pacogames.coe.resources.Resources;
 import net.pacogames.coe.ui.NavBar;
 import net.pacogames.coe.ui.buttons.Button;
-import net.pacogames.coe.ui.buttons.ImageButton;
 import net.pacogames.coe.ui.buttons.PlayButton;
 
 public class MainMenu implements Scene {
@@ -101,7 +100,7 @@ public class MainMenu implements Scene {
 			@Override
 			public boolean touchDown(int x, int y, int pointer, int button) {
 				navBar.mousePressed(x, y);
-				page.press();
+				page.mousePressed(x, y);
 				return false;
 			}
 

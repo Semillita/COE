@@ -1,4 +1,4 @@
-package net.pacogames.coe.game;
+package net.pacogames.coe.logic.game;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,10 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import com.badlogic.gdx.Gdx;
-
-import net.pacogames.coe.utils.Point;
-import net.pacogames.coe.utils.Vector2;
+import net.pacogames.coe.logic.utils.Point;
+import net.pacogames.coe.logic.utils.Vector2;
 
 public class Match {
 

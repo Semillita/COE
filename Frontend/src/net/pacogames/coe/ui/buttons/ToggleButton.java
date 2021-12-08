@@ -4,6 +4,9 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class ToggleButton extends Button{
 	
+	public ToggleButton(Texture body) {
+		super(body);
+	}
 	private Texture texture;
 	
 	protected int x, y;
