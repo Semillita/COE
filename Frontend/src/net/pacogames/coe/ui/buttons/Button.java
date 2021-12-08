@@ -19,34 +19,65 @@ public class Button {
 	}
 	
 	public void mouseMoved(int x, int y) {
-		
+		if(isInside(x, y)) {
+			onMouseMoved(x, y);
+			if(!hovered) {
+				hovered = true;
+			}
+		} else {
+			if(hovered) {
+				hovered = false;
+			}
+		}
 	}
 	
 	public void mousePressed(int x, int y) {
-		
+		if(isInside(x, y)) {
+			pressed = true;
+			onPress();
+		}
 	}
 	
 	public void mouseReleased(int x, int y) {
+		onRelease();
+		if(isInside(x, y) && pressed) {
+			onClick();
+		}
+	}
+	
+	protected void onMouseMoved(int x, int y) {
 		
 	}
 	
-	public void onHover(int x, int y) {
+	protected void onEnter() {
+	
+	}
+	
+	protected void onExit() {
 		
 	}
 	
-	public void onPress() {
+	protected void onPress() {
 		
 	}
 	
-	public void onRelease() {
+	protected void onRelease() {
 		
 	}
 	
-	public void onClick() {
+	protected void onClick() {
 		
+	}
+	
+	public Texture getBody() {
+		return body;
 	}
 	
 	public boolean isHovered() {
 		return hovered;
+	}
+	
+	private boolean isInside(int x, int y) {
+		return x >= this.x && x < this.x + width && y >= this.y && y < this.y + height;
 	}
 }
