@@ -2,7 +2,7 @@ package net.pacogames.coe.ui.buttons;
 
 import com.badlogic.gdx.graphics.Texture;
 
-public class ToggleButton implements Button{
+public class ToggleButton extends Button{
 	
 	private Texture texture;
 	
@@ -11,4 +11,6 @@ public class ToggleButton implements Button{
 	
 	protected boolean hovered = false;
 	protected boolean pressed = false;
+	
+	
 }

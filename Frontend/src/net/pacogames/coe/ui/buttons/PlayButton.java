@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 
 import net.pacogames.coe.resources.Resources;
 
-public class PlayButton extends ImageButton {
+public class PlayButton extends Button {
 	
 private Consumer<Property> onClick;
 

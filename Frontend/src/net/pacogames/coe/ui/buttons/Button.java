@@ -14,8 +14,19 @@ public class Button {
 	protected boolean hovered = false;
 	protected boolean pressed = false;
 	
+	public Button(Texture body) {
+		this.body = body;
+	}
+	
 	public void render(Batch batch) {
 		batch.draw(body, x, y, width, height);
+	}
+	
+	public void setBounds(int x, int y, int width, int height) {
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
 	}
 	
 	public void mouseMoved(int x, int y) {
