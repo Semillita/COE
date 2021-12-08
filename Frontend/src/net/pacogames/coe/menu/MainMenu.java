@@ -87,13 +87,6 @@ public class MainMenu implements Scene {
 				worldCords = camera.unproject(worldCords);
 				x = (int) worldCords.x;
 				y = (int) worldCords.y;
-				/*Rectangle b = button.getBox();
-				if(b.contains(x, y) && !button.isHovered()){
-					button.hover(true);
-				}
-				if(!b.contains(x, y) && button.isHovered()) {
-					button.hover(false);
-				}*/
 				navBar.mouseMoved(x, y);
 				page.mouseMoved(x, y);
 				return false;
@@ -106,8 +99,8 @@ public class MainMenu implements Scene {
 			}
 
 			@Override
-			public boolean touchDown(int arg0, int arg1, int arg2, int arg3) {
-				navBar.click();
+			public boolean touchDown(int x, int y, int pointer, int button) {
+				navBar.mousePressed(x, y);
 				page.press();
 				return false;
 			}

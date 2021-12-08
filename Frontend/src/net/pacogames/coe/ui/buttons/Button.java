@@ -5,57 +5,48 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 
-public interface Button {
+public class Button {
 	
-	public void hover(boolean hovered);
-	public void press();
-	public void release();
-	public void render(Batch batch);
-	public void mouseMoved(int x, int y);
-	public Rectangle getBox();
-	public boolean isHovered();
+	private Texture body;
+	protected int x, y;
+	protected int width, height;
 	
-	// Data types //
+	protected boolean hovered = false;
+	protected boolean pressed = false;
 	
-	/*
-	 * private Texture texture; private boolean hover;
-	 * 
-	 * // Methods //
-	 * 
-	 * public Button(Texture texture) { this.texture = texture; //super(text, skin);
-	 * addListener(new InputListener() {
-	 * 
-	 * @Override public void hover(InputEvent event, float x, float y, int pointer,
-	 * Actor fromActor) { hover = true; }
-	 * 
-	 * @Override public void exit(InputEvent event, float x, float y, int pointer,
-	 * Actor toActor) { hover = false; } }); }
-	 * 
-	 * public void render(Batch batch, float x, float y) { batch.draw(texture, x,
-	 * y); }
-	 * 
-	 * public Color getColor() { if (!hover) return getColor(); //super.getColor
-	 * ifall en class extendar från button else return Color.WHITE; //Jag hårdkodar
-	 * färgen än så länge, ändrar opacity sen. }
-	 */	
+	public void render(Batch batch) {
+		batch.draw(body, x, y, width, height);
+	}
 	
-	/* Estos funktioner är nödvändiga
-	
-	public void isHover() {
+	public void mouseMoved(int x, int y) {
 		
 	}
 	
-	public void isPressed() {
+	public void mousePressed(int x, int y) {
 		
 	}
 	
-	public void isReleased() {
+	public void mouseReleased(int x, int y) {
 		
 	}
 	
-	public Color getColor() {
-	
+	public void onHover(int x, int y) {
+		
 	}
 	
-	*/
+	public void onPress() {
+		
+	}
+	
+	public void onRelease() {
+		
+	}
+	
+	public void onClick() {
+		
+	}
+	
+	public boolean isHovered() {
+		return hovered;
+	}
 }

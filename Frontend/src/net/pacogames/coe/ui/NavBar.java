@@ -67,10 +67,14 @@ public class NavBar {
 		}
 	}
 	
-	public void click() {
+	public void mousePressed(int x, int y) {
 		for(NavButton button : buttons) {
-			button.press();
+			button.mousePressed(x, y);
 		}
+	}
+	
+	public void mouseReleased(int x, int y) {
+		
 	}
 	
 	private void positionButtons(final int x, final int y, final int width, final int height) {

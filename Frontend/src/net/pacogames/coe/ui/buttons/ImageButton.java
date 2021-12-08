@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 
-public class ImageButton implements Button{
+public class ImageButton extends Button{
 	
 	private Texture texture;
 	protected int x, y;
