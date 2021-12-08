@@ -33,16 +33,16 @@ public class NavBar {
 	public NavBar (int x,int y, int width, int height, Consumer<PageProperty> onButtonClick) {
 		background = new Texture("menu/BlackPixel.png");
 		var settingsTexture = Resources.getTexture("menu/SETTINGS.png");
-		var playTexture = Resources.getTexture("menu/SETTINGS.png");
+		var playTexture = Resources.getTexture("menu/PLAY.png");
 		
-		settingsButton = new NavButton(settingsTexture, () -> onButtonClick.accept(PageProperty.SETTINGS));
 		playButton = new NavButton(playTexture, () -> {
 			onButtonClick.accept(PageProperty.PLAY);
 		});
+		settingsButton = new NavButton(settingsTexture, () -> onButtonClick.accept(PageProperty.SETTINGS));
 		
 		buttons = new ArrayList<>();
-		buttons.add(settingsButton);
 		buttons.add(playButton);
+		buttons.add(settingsButton);
 	}
 	
 	public void render(Batch batch) {
