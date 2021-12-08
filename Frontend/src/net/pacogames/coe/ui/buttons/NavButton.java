@@ -14,10 +14,14 @@ public class NavButton extends Button {
 	
 	@Override
 	public void render(Batch batch) {
-		if(!hovered) {
-			batch.draw(getBody(), x, y, width, height);	
+		if(pressed) {
+			batch.draw(getBody(), x - 5, y - 5, width + 10, height + 10);
 		} else {
-			batch.draw(getBody(), x - 10, y - 10, width + 20, height + 20);	
+			if(!hovered) {
+				batch.draw(getBody(), x, y, width, height);	
+			} else {
+				batch.draw(getBody(), x - 10, y - 10, width + 20, height + 20);	
+			}
 		}
 	}
 	

@@ -101,6 +101,8 @@ public class MainMenu implements Scene {
 			public boolean touchDown(int x, int y, int pointer, int button) {
 				navBar.mousePressed(x, y);
 				page.mousePressed(x, y);
+				
+				System.out.println("Click: " + x + ", " + y);	
 				return false;
 			}
 

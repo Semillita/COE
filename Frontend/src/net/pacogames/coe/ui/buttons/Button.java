@@ -80,6 +80,22 @@ public class Button {
 		
 	}
 	
+	protected int getX() {
+		return x;
+	}
+	
+	protected int getY() {
+		return y;
+	}
+	
+	protected int getWidth() {
+		return width;
+	}
+	
+	protected int getHeight() {
+		return height;
+	}
+	
 	public Texture getBody() {
 		return body;
 	}
