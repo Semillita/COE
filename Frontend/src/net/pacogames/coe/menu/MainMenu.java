@@ -49,11 +49,12 @@ public class MainMenu implements Scene {
 				});
 		setInputListener();
 		
-		page = new PlayPage((prop) -> {
-			if(prop == PlayButton.Property.NORMAL) {
-				onPlay.run();
-			}
-		});
+		/*
+		 * page = new PlayPage((prop) -> { if(prop == PlayButton.Property.NORMAL) {
+		 * onPlay.run(); } });
+		 */
+		
+		page = new SettingsPage();
 		bg = Resources.getTexture("menu/BG.png");
 	}
 	
@@ -124,6 +125,7 @@ public class MainMenu implements Scene {
 	private void setPage(MenuPage page) {
 		if(page.getClass() != this.page.getClass()) {
 			this.page = page;
+			System.out.println(page.getClass());
 		}
 	}
 

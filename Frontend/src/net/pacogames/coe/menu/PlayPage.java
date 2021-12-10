@@ -20,9 +20,9 @@ public class PlayPage implements MenuPage {
 	
 	public PlayPage(Consumer<Property> onPlay) {
 		buttons = new ArrayList<>();
-		buttons.add(new PlayButton(Resources.getTexture("menu/PlaceholderPlay.png"), onPlay, Property.NORMAL));
-		buttons.add(new PlayButton(Resources.getTexture("menu/PlaceholderPlay.png"), onPlay, Property.TRAINING));
-		buttons.add(new PlayButton(Resources.getTexture("menu/PlaceholderPlay.png"), onPlay, Property.CUSTOM));
+		buttons.add(new PlayButton(Resources.getTexture("menu/NormalPlay.png"), onPlay, Property.NORMAL));
+		buttons.add(new PlayButton(Resources.getTexture("menu/Friendly2v2.png"), onPlay, Property.TRAINING));
+		buttons.add(new PlayButton(Resources.getTexture("menu/Custom.png"), onPlay, Property.CUSTOM));
 		//buttons.add(new PlayButton(Resources.getTexture("menu/PlaceholderPlay.png"), null));
 	}
 	
