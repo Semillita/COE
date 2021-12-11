@@ -54,6 +54,7 @@ public class Button {
 		if(isInside(x, y) && pressed) {
 			onClick();
 		}
+		pressed = false;
 	}
 	
 	protected void onMouseMoved(int x, int y) {

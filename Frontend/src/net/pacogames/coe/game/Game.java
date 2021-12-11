@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import net.pacogames.coe.Scene;
 import net.pacogames.coe.resources.Resources;
 
-public class LocalGame implements Scene {
+public class Game implements Scene {
 
 private final int VIEWPORT_WIDTH = 3840, VIEWPORT_HEIGHT = 2160;
 	
@@ -29,7 +29,7 @@ private final int VIEWPORT_WIDTH = 3840, VIEWPORT_HEIGHT = 2160;
 	
 	private Texture black;
 	
-	public LocalGame() {
+	public Game() {
 		arena = new Arena();
 		
 		initCameraViewport();

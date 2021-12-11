@@ -34,7 +34,7 @@ private Property property;
 	}
 	
 	@Override
-	protected void onPress() {
+	protected void onClick() {
 		onClick.accept(property);
 	}
 	

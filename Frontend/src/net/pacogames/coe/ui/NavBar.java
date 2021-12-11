@@ -74,7 +74,9 @@ public class NavBar {
 	}
 	
 	public void mouseReleased(int x, int y) {
-		
+		for(NavButton button : buttons) {
+			button.mouseReleased(x, y);
+		}
 	}
 	
 	private void positionButtons(final int x, final int y, final int width, final int height) {

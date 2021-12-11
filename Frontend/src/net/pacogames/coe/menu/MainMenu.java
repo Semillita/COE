@@ -45,6 +45,10 @@ public class MainMenu implements Scene {
 								onPlay.run();
 							}
 						}));
+						break;
+					case SETTINGS:
+						setPage(new SettingsPage());
+						System.out.println("Settings");
 					}
 				});
 		setInputListener();
@@ -100,6 +104,10 @@ public class MainMenu implements Scene {
 
 			@Override
 			public boolean touchDown(int x, int y, int pointer, int button) {
+				Vector3 worldCords = new Vector3(x, y, 0);
+				worldCords = camera.unproject(worldCords);
+				x = (int) worldCords.x;
+				y = (int) worldCords.y;
 				navBar.mousePressed(x, y);
 				page.mousePressed(x, y);
 				
@@ -108,13 +116,18 @@ public class MainMenu implements Scene {
 			}
 
 			@Override
-			public boolean touchDragged(int arg0, int arg1, int arg2) {
-				// TODO Auto-generated method stub
+			public boolean touchUp(int x, int y, int pointer, int button) {
+				Vector3 worldCords = new Vector3(x, y, 0);
+				worldCords = camera.unproject(worldCords);
+				x = (int) worldCords.x;
+				y = (int) worldCords.y;
+				navBar.mouseReleased(x, y);
+				page.mouseReleased(x, y);
 				return false;
 			}
-
+			
 			@Override
-			public boolean touchUp(int arg0, int arg1, int arg2, int arg3) {
+			public boolean touchDragged(int arg0, int arg1, int arg2) {
 				// TODO Auto-generated method stub
 				return false;
 			}

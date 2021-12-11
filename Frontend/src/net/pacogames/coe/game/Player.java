@@ -12,7 +12,7 @@ public class Player {
 	private static final float RETARDATION = 100;
 	private static final int WIDTH = 80, HEIGHT = 160;
 	
-	private LocalGame game;
+	private Game game;
 	int[] keys;
 	private Texture texture;
 	
@@ -20,7 +20,7 @@ public class Player {
 	Vector2 momentum;
 	Vector2 origin;
 	
-	public Player(LocalGame game, int[] keys, Texture texture, int x, Vector2 momentum) { 
+	public Player(Game game, int[] keys, Texture texture, int x, Vector2 momentum) { 
 		this.game = game;
 		this.keys = keys;
 		this.texture = texture;
