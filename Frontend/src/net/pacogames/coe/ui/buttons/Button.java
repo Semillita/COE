@@ -47,6 +47,7 @@ public class Button {
 			pressed = true;
 			onPress();
 		}
+		System.out.println("Button " + this.x);
 	}
 	
 	public void mouseReleased(int x, int y) {
@@ -105,7 +106,10 @@ public class Button {
 		return hovered;
 	}
 	
-	private boolean isInside(int x, int y) {
+	protected boolean isInside(int x, int y) {
+		System.out.println("isInside");
+		System.out.println(y);
+		System.out.println(this.y + height);
 		return x >= this.x && x < this.x + width && y >= this.y && y < this.y + height;
 	}
 }

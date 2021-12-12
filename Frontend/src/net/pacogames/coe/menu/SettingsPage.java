@@ -33,14 +33,13 @@ public class SettingsPage implements MenuPage{
 
 	@Override
 	public void mousePressed(int x, int y) {
-		// TODO Auto-generated method stub
-		
+		System.out.println("mousePressed");
+		volume.mousePressed(x, y);
 	}
 
 	@Override
 	public void mouseReleased(int x, int y) {
-		// TODO Auto-generated method stub
-		
+		volume.mouseReleased(x, y);
 	}
 
 }

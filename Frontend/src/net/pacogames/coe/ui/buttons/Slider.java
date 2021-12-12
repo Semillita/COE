@@ -16,13 +16,24 @@ public class Slider extends Button{
 	@Override
 	public void render(Batch batch) {
 		super.render(batch);
-		batch.draw(marker, getX() + value * getWidth(), getY(), 100, 30);
+		batch.draw(marker, getX() + value * getWidth() - 10, getY() - 5, 20, getHeight() + 10);
 	}
 	
 	@Override
-	public void onMouseMoved(int x, int y) {
-		value = (float) (x - getX()) / getWidth();
-		System.out.println(getWidth());	
+	public void mouseMoved(int x, int y) {
+		super.mouseMoved(x, y);
+		/*System.out.println("MouseMoved in slider");
+		System.out.println(pressed);*/
+		if(super.pressed && x >= getX() && x < getX() + getWidth()) {
+			value = (float) (x - getX()) / getWidth();
+		}
 	}
 	
+	@Override
+	public void mousePressed(int x, int y) {
+		super.mousePressed(x, y);
+		if(super.isInside(x, y)) {
+			value = (float) (x - getX()) / getWidth();
+		}
+	}
 }

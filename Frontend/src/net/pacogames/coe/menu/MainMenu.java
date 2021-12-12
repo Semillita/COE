@@ -48,7 +48,6 @@ public class MainMenu implements Scene {
 						break;
 					case SETTINGS:
 						setPage(new SettingsPage());
-						System.out.println("Settings");
 					}
 				});
 		setInputListener();
@@ -58,7 +57,11 @@ public class MainMenu implements Scene {
 		 * onPlay.run(); } });
 		 */
 		
-		page = new SettingsPage();
+		page = new PlayPage((prop) -> {
+			if(prop == PlayButton.Property.NORMAL) {
+				onPlay.run();
+			}
+		});
 		bg = Resources.getTexture("menu/BG.png");
 	}
 	
@@ -110,8 +113,6 @@ public class MainMenu implements Scene {
 				y = (int) worldCords.y;
 				navBar.mousePressed(x, y);
 				page.mousePressed(x, y);
-				
-				System.out.println("Click: " + x + ", " + y);	
 				return false;
 			}
 
@@ -127,8 +128,8 @@ public class MainMenu implements Scene {
 			}
 			
 			@Override
-			public boolean touchDragged(int arg0, int arg1, int arg2) {
-				// TODO Auto-generated method stub
+			public boolean touchDragged(int x, int y, int arg2) {
+				mouseMoved(x, y);
 				return false;
 			}
 			
@@ -138,7 +139,6 @@ public class MainMenu implements Scene {
 	private void setPage(MenuPage page) {
 		if(page.getClass() != this.page.getClass()) {
 			this.page = page;
-			System.out.println(page.getClass());
 		}
 	}
 
