@@ -22,8 +22,6 @@ public class Slider extends Button{
 	@Override
 	public void mouseMoved(int x, int y) {
 		super.mouseMoved(x, y);
-		/*System.out.println("MouseMoved in slider");
-		System.out.println(pressed);*/
 		if(super.pressed && x >= getX() && x < getX() + getWidth()) {
 			value = (float) (x - getX()) / getWidth();
 		}

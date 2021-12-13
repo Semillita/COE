@@ -84,7 +84,6 @@ public class NavBar {
 		for(NavButton button : buttons) {
 			Texture buttonTexture = button.getBody();
 			int yPos = (height - buttonTexture.getHeight())/2 + y;
-			System.out.println(xPos + ", " + yPos);
 			button.setBounds(xPos, yPos, buttonTexture.getWidth(), buttonTexture.getHeight());
 			xPos += buttonTexture.getWidth() + 100;
 		}

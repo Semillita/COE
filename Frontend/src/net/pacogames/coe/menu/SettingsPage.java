@@ -33,7 +33,6 @@ public class SettingsPage implements MenuPage{
 
 	@Override
 	public void mousePressed(int x, int y) {
-		System.out.println("mousePressed");
 		volume.mousePressed(x, y);
 	}
 

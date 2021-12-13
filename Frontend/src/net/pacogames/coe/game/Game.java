@@ -35,8 +35,6 @@ public class Game extends Match implements Scene {
 	
 	public Game() {
 		super();
-		System.out.println(1);
-		System.out.println(2);
 		
 		arena = new Arena();
 		
@@ -61,23 +59,18 @@ public class Game extends Match implements Scene {
 	@Override
 	public void render(Batch batch, double deltaTime) {
 		//Se till att frames finns:
-		//super.updateFrames();
+		super.updateFrames();
 		
 		//Plocka mest accurate frame
 		var frame = super.getClosestFrame();
-		//var p1 = frame.player1data
-		//var p2 = frame.player2data
-		//
+		var p1 = frame.player1data;
+		var p2 = frame.player2data;
 		
 		batch.setProjectionMatrix(camera.combined);
 		
 		//Rita spelare
-		//player1.render(batch, p1.pos.x, p1.pos.y)
-		//player2.render(batch, p2.pos.x, p2.pos.y)
-		
-		
-		//player1.render(batch, deltaTime);
-		//player2.render(batch, deltaTime);
+		player1.render(batch, (int) p1.pos.x, (int) p1.pos.y);
+		player2.render(batch, (int) p2.pos.x, (int) p2.pos.y);
 		
 		arena.render(batch);
 	}
