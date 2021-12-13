@@ -16,6 +16,7 @@ public class PlayerFrameData {
 	public PlayerFrameData(Point pos, Vector2 momentum, Map<Key, Boolean> inputs, int stun, int damage) {
 		this.pos = pos;
 		this.momentum = momentum;
+		this.input = inputs;
 		this.stun = stun;
 		this.damage = damage;
 	}

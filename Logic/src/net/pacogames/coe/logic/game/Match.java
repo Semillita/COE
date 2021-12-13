@@ -23,7 +23,6 @@ public class Match {
 		p1inputQueue = new HashMap<>();
 		p2inputQueue = new HashMap<>();
 		
-		System.out.println("Should create first frame");
 		createFirstFrame();
 		
 		gameTimer = new GameTimer();
@@ -33,17 +32,13 @@ public class Match {
 	public Frame getClosestFrame() {
 		var timeElapsed = gameTimer.getTimeElapsed();
 		long index = (timeElapsed - (timeElapsed % Frame.LENGTH));
-		System.out.println("Time elapsed: " + timeElapsed);
-		System.out.println(index);
 		return frames.get(index);
 	}
 	
 	public void updateFrames() {
-		System.out.println("Updating frames");
 		var timeElapsed = gameTimer.getTimeElapsed();
 		long currentIndex = (timeElapsed - (timeElapsed % Frame.LENGTH));
 		for(long i = lastFrame + Frame.LENGTH; i < currentIndex + 2 * Frame.LENGTH; i += Frame.LENGTH) {
-			System.out.println("Needs a frame at time stamp: " + i);
 			frames.put(i, createFrame(i));
 			lastFrame += Frame.LENGTH;
 		}
@@ -54,50 +49,39 @@ public class Match {
 	 */
 	
 	private void createFirstFrame() {
-		System.out.println("Creating first frame");
-		Point pos1 = new Point(500, 400);
-		Vector2 momenetum1 = new Vector2(0, 0);
+		Point pos1 = new Point(1000, 700);
+		Vector2 momentum1 = new Vector2(0, 0);
 		Map<Key, Boolean> input1 = new HashMap<>();
 		for(Key key : Key.values()) {
 			input1.put(key, false);
 		}
 		int stun1 = 0;
 		int damage1 = 0;
-		PlayerFrameData player1data = new PlayerFrameData(pos1, momenetum1, input1, stun1, damage1);
-		System.out.println("First p1data: " + player1data);
+		PlayerFrameData player1data = new PlayerFrameData(pos1, momentum1, input1, stun1, damage1);
 		
-		Point pos2 = new Point(500, 400);
-		Vector2 momenetum2 = new Vector2(0, 0);
+		Point pos2 = new Point(1200, 700);
+		Vector2 momentum2 = new Vector2(0, 0);
 		Map<Key, Boolean> input2 = new HashMap<>();
 		for(Key key : Key.values()) {
-			input1.put(key, false);
+			input2.put(key, false);
 		}
 		int stun2 = 0;
 		int damage2 = 0;
-		PlayerFrameData player2data = new PlayerFrameData(pos2, momenetum2, input2, stun2, damage2);
-		System.out.println("First p2data: " + player2data);
+		PlayerFrameData player2data = new PlayerFrameData(pos2, momentum2, input2, stun2, damage2);
 		
 		Frame firstFrame = new Frame(0, player1data, player2data);
 		frames.put(0l, firstFrame);
-		System.out.println("First frame object: " + firstFrame);
 	}
 	
 	private Frame createFrame(long timeStamp) {
-		System.out.println("Creating frame at time stamp: " + timeStamp);
 		Frame lastFrame = frames.get(timeStamp - Frame.LENGTH);
-		System.out.println("Last frame: " + lastFrame);
 		
-		System.out.println("All frames: ");
-		System.out.println(frames.keySet());
-		System.out.println(frames.values());
 
 		PlayerFrameData p1 = lastFrame.player1data;
-		System.out.println("p1data: " + p1);
 		PlayerFrameData p2 = lastFrame.player2data;
-		System.out.println("p2data: " + p2);
 
 		Map<Key, Boolean> p1input = p1.input;
-		Map<Key, Boolean> p2input = p1.input;
+	    Map<Key, Boolean> p2input = p2.input;
 
 		Vector2 p1movement = (p1.stun == 0) ? getMovement(p1input) : new Vector2(0, 0);
 		Vector2 p2movement = (p2.stun == 0) ? getMovement(p2input) : new Vector2(0, 0);
@@ -177,15 +161,17 @@ public class Match {
 		
 		Map<Key, Boolean> p2newInput = applyInputEvents(p2input, p2inputQueue.get(timeStamp));
 		PlayerFrameData player2data = new PlayerFrameData(p2pos, p2momentum, p2newInput, p2.stun - 1, 0);
-		
 		return new Frame(timeStamp + Frame.LENGTH, player1data, player2data);
 	}
 
 	private Map<Key, Boolean> applyInputEvents(Map<Key, Boolean> previous, List<InputEvent> inputs) {
 		Map<Key, Boolean> frameInput = new HashMap<>();
 		frameInput.putAll(previous);
-		for(InputEvent e : inputs) {
-			frameInput.put(e.key, e.pressed);
+		//OBS!!! Fixa så att inputs inte är null, dvs skapa för varje ny frame en tom inputs-lista och fyll sedan på
+		if(inputs != null) {
+			for(InputEvent e : inputs) {
+				frameInput.put(e.key, e.pressed);
+			}
 		}
 		return frameInput;
 	}
