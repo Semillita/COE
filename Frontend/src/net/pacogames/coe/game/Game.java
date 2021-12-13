@@ -11,9 +11,10 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import net.pacogames.coe.Scene;
+import net.pacogames.coe.logic.game.Match;
 import net.pacogames.coe.resources.Resources;
 
-public class Game implements Scene {
+public class Game extends Match implements Scene {
 
 private final int VIEWPORT_WIDTH = 3840, VIEWPORT_HEIGHT = 2160;
 	
@@ -27,9 +28,11 @@ private final int VIEWPORT_WIDTH = 3840, VIEWPORT_HEIGHT = 2160;
 	private Player player1;
 	private Player player2;
 	
-	private Texture black;
-	
 	public Game() {
+		super();
+		System.out.println(1);
+		System.out.println(2);
+		
 		arena = new Arena();
 		
 		initCameraViewport();
@@ -44,19 +47,21 @@ private final int VIEWPORT_WIDTH = 3840, VIEWPORT_HEIGHT = 2160;
 		};
 		player2 = new Player(this, keys2, Resources.getTexture("player/blue.png"), 1500, new Vector2(800, 1800));
 		
-		black = Resources.getTexture("colors/black.png");
+		//Start game
+		super.startGame();
 	}
 	
 	@Override
 	public void render(Batch batch, double deltaTime) {
+		//Get accurate frame data
+		System.out.println(super.getTimeElapsed());
+		
 		batch.setProjectionMatrix(camera.combined);
 		
 		player1.render(batch, deltaTime);
 		player2.render(batch, deltaTime);
 		
 		arena.render(batch);
-		
-		batch.draw(black, 720, 380, 50, 50);
 	}
 	
 	@Override

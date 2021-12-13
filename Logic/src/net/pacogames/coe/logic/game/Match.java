@@ -11,6 +11,9 @@ import net.pacogames.coe.logic.utils.Vector2;
 
 public class Match {
 
+	//The match's starting time stamp in nanoseconds
+	private long startTime;
+	
 	Map<Long, Frame> frames;
 	Map<Long, List<InputEvent>> p1inputQueue;
 	Map<Long, List<InputEvent>> p2inputQueue;
@@ -23,6 +26,15 @@ public class Match {
 		p2inputQueue = new HashMap<>();
 	}
 
+	protected void startGame() {
+		startTime = System.nanoTime();
+	}
+	
+	/**Time since the game started in milliseconds*/
+	protected long getTimeElapsed() {
+		return (startTime - System.nanoTime()) / 1_000_000;
+	}
+	
 	private Frame createFrame(long timeStamp) {
 		Frame lastFrame = frames.get(timeStamp - Frame.LENGTH);
 
