@@ -62,7 +62,7 @@ public class MainMenu implements Scene {
 				onPlay.run();
 			}
 		});
-		bg = Resources.getTexture("menu/BG.png");
+		bg = Resources.getTexture("backgrounds/main_menu.png");
 	}
 	
 	@Override

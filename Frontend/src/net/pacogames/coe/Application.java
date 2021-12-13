@@ -32,11 +32,6 @@ public class Application extends ApplicationAdapter {
 
 	@Override
 	public void render() {
-		/*
-		 * if (iteration == 1) { scene = new LocalGame(); }
-		 */
-		//iteration += 1;
-		
 		//Clear window
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 	    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

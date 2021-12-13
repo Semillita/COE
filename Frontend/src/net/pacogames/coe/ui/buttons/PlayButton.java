@@ -19,7 +19,7 @@ private Property property;
 		super(texture);
 		this.property = property;
 		this.onClick = onClick;
-		hoverTexture = Resources.getTexture("menu/TransparentWhitePixel.png");
+		hoverTexture = Resources.getTexture("colors/white_transparent.png");
 	}
 	
 	@Override

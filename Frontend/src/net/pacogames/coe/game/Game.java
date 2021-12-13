@@ -37,14 +37,14 @@ private final int VIEWPORT_WIDTH = 3840, VIEWPORT_HEIGHT = 2160;
 		int[] keys1 = {
 				Keys.W, Keys.D, Keys.S, Keys.A
 		};
-		player1 = new Player(this, keys1, Resources.getTexture("textures/player/red.png"), 1300, new Vector2(-1000, 1000));
+		player1 = new Player(this, keys1, Resources.getTexture("player/red.png"), 1300, new Vector2(-1000, 1000));
 		
 		int[] keys2 = {
 				Keys.UP, Keys.RIGHT, Keys.DOWN, Keys.LEFT
 		};
-		player2 = new Player(this, keys2, Resources.getTexture("textures/player/blue.png"), 1500, new Vector2(800, 1800));
+		player2 = new Player(this, keys2, Resources.getTexture("player/blue.png"), 1500, new Vector2(800, 1800));
 		
-		black = Resources.getTexture("menu/BlackPixel.png");
+		black = Resources.getTexture("colors/black.png");
 	}
 	
 	@Override

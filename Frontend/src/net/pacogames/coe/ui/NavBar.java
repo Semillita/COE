@@ -31,9 +31,9 @@ public class NavBar {
 	List<NavButton> buttons;
 	
 	public NavBar (int x,int y, int width, int height, Consumer<PageProperty> onButtonClick) {
-		background = new Texture("menu/BlackPixel.png");
-		var settingsTexture = Resources.getTexture("menu/SETTINGS.png");
-		var playTexture = Resources.getTexture("menu/PLAY.png");
+		background = Resources.getTexture("colors/black.png");
+		var settingsTexture = Resources.getTexture("buttons/nav/settings.png");
+		var playTexture = Resources.getTexture("buttons/nav/play.png");
 		
 		playButton = new NavButton(playTexture, () -> {
 			onButtonClick.accept(PageProperty.PLAY);
