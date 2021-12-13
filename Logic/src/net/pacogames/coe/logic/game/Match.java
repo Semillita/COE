@@ -10,30 +10,40 @@ import net.pacogames.coe.logic.utils.Point;
 import net.pacogames.coe.logic.utils.Vector2;
 
 public class Match {
-
-	//The match's starting time stamp in nanoseconds
-	private long startTime;
 	
 	Map<Long, Frame> frames;
 	Map<Long, List<InputEvent>> p1inputQueue;
 	Map<Long, List<InputEvent>> p2inputQueue;
+	long lastFrame = 0;
 
-	// Player player1, player2;
-
+	private GameTimer gameTimer;
+	
 	public Match() {
 		frames = new HashMap<>();
 		p1inputQueue = new HashMap<>();
 		p2inputQueue = new HashMap<>();
-	}
-
-	protected void startGame() {
-		startTime = System.nanoTime();
+		
+		gameTimer = new GameTimer();
+		gameTimer.start();
 	}
 	
-	/**Time since the game started in milliseconds*/
-	protected long getTimeElapsed() {
-		return (startTime - System.nanoTime()) / 1_000_000;
+	public Frame getClosestFrame() {
+		var timeElapsed = gameTimer.getTimeElapsed();
+		long index = (timeElapsed - (timeElapsed % Frame.LENGTH));
+		System.out.println("Time elapsed: " + timeElapsed);
+		System.out.println(index);
+		return frames.get(index);
 	}
+	
+	public void updateFrames() {
+		if(lastFrame < gameTimer.getTimeElapsed()) {
+			
+		}
+	}
+	
+	/*
+	 * public GameTimer getGameTimer() { return gameTimer; }
+	 */
 	
 	private Frame createFrame(long timeStamp) {
 		Frame lastFrame = frames.get(timeStamp - Frame.LENGTH);

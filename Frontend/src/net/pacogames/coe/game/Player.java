@@ -32,9 +32,14 @@ public class Player {
 		origin = new Vector2(momentum.x, momentum.y);
 	}
 	
-	public void render(Batch batch, double deltaTime) {
+	public void render(Batch batch, int x, int y) {
 		batch.draw(texture, x - WIDTH / 2, y - HEIGHT / 2, WIDTH, HEIGHT);
 	}
+	
+	/*
+	 * public void render(Batch batch, double deltaTime) { batch.draw(texture, x -
+	 * WIDTH / 2, y - HEIGHT / 2, WIDTH, HEIGHT); }
+	 */
 	
 	public void setPosition(float x, float y) {
 		this.x = x;

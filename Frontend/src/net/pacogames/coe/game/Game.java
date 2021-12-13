@@ -1,5 +1,8 @@
 package net.pacogames.coe.game;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Camera;
@@ -16,7 +19,7 @@ import net.pacogames.coe.resources.Resources;
 
 public class Game extends Match implements Scene {
 
-private final int VIEWPORT_WIDTH = 3840, VIEWPORT_HEIGHT = 2160;
+	private final int VIEWPORT_WIDTH = 3840, VIEWPORT_HEIGHT = 2160;
 	
 	private Camera camera;
 	private Viewport viewport;
@@ -27,6 +30,8 @@ private final int VIEWPORT_WIDTH = 3840, VIEWPORT_HEIGHT = 2160;
 	
 	private Player player1;
 	private Player player2;
+	
+	private ExecutorService pool;
 	
 	public Game() {
 		super();
@@ -47,19 +52,32 @@ private final int VIEWPORT_WIDTH = 3840, VIEWPORT_HEIGHT = 2160;
 		};
 		player2 = new Player(this, keys2, Resources.getTexture("player/blue.png"), 1500, new Vector2(800, 1800));
 		
-		//Start game
-		super.startGame();
+		pool = Executors.newSingleThreadExecutor();
+		
+		//super.start();
+		
 	}
 	
 	@Override
 	public void render(Batch batch, double deltaTime) {
-		//Get accurate frame data
-		System.out.println(super.getTimeElapsed());
+		//Se till att frames finns:
+		//super.updateFrames();
+		
+		//Plocka mest accurate frame
+		var frame = super.getClosestFrame();
+		//var p1 = frame.player1data
+		//var p2 = frame.player2data
+		//
 		
 		batch.setProjectionMatrix(camera.combined);
 		
-		player1.render(batch, deltaTime);
-		player2.render(batch, deltaTime);
+		//Rita spelare
+		//player1.render(batch, p1.pos.x, p1.pos.y)
+		//player2.render(batch, p2.pos.x, p2.pos.y)
+		
+		
+		//player1.render(batch, deltaTime);
+		//player2.render(batch, deltaTime);
 		
 		arena.render(batch);
 	}
