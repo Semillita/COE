@@ -10,7 +10,7 @@ public class Player {
 
 	private static final float SPEED = 600;
 	private static final float RETARDATION = 100;
-	private static final int WIDTH = 80, HEIGHT = 160;
+	private static final int WIDTH = 160;
 	
 	private Game game;
 	int[] keys;
@@ -33,7 +33,9 @@ public class Player {
 	}
 	
 	public void render(Batch batch, int x, int y) {
-		batch.draw(texture, x - WIDTH / 2, y - HEIGHT / 2, WIDTH, HEIGHT);
+		var width = WIDTH;
+		var height = width * texture.getHeight() / texture.getWidth();
+		batch.draw(texture, x - WIDTH / 2, y - height / 2, WIDTH, height);
 	}
 	
 	/*
