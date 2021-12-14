@@ -4,6 +4,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -33,6 +34,9 @@ public class Game extends Match implements Scene {
 	
 	private ExecutorService pool;
 	
+	int[] keys1;
+	int[] keys2;
+	
 	public Game() {
 		super();
 		
@@ -40,12 +44,12 @@ public class Game extends Match implements Scene {
 		
 		initCameraViewport();
 		
-		int[] keys1 = {
+		keys1 = new int[] {
 				Keys.W, Keys.D, Keys.S, Keys.A
 		};
 		player1 = new Player(this, keys1, Resources.getTexture("player/player1.png"), 1300, new Vector2(-1000, 1000));
 		
-		int[] keys2 = {
+		keys2 = new int[] {
 				Keys.UP, Keys.RIGHT, Keys.DOWN, Keys.LEFT
 		};
 		player2 = new Player(this, keys2, Resources.getTexture("player/player2.png"), 1500, new Vector2(800, 1800));
@@ -81,6 +85,21 @@ public class Game extends Match implements Scene {
 		camera.position.set(VIEWPORT_WIDTH / 2f, VIEWPORT_HEIGHT / 2f, 0);
 		viewport.apply();
 		
+	}
+	
+	public void setInputListener() {
+		Gdx.input.setInputProcessor(new InputAdapter() {
+			@Override
+			public boolean keyDown(int keyCode) {
+				long timeStamp = getClosestFrameStamp();
+				if(keyCode == keys1[0]) {
+					getPlayerInputQueue(1); //put input event into input queue
+				} else if(keyCode == keys1[1]) {
+					
+				}
+				return false;
+			}
+		});
 	}
 	
 	private void initCameraViewport() {

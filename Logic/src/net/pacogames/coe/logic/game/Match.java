@@ -30,9 +30,13 @@ public class Match {
 	}
 	
 	public Frame getClosestFrame() {
+		return frames.get(getClosestFrameStamp());
+	}
+	
+	public long getClosestFrameStamp() {
 		var timeElapsed = gameTimer.getTimeElapsed();
 		long index = (timeElapsed - (timeElapsed % Frame.LENGTH));
-		return frames.get(index);
+		return index;
 	}
 	
 	public void updateFrames() {
@@ -44,13 +48,13 @@ public class Match {
 		}
 	}
 	
-	/*
-	 * public GameTimer getGameTimer() { return gameTimer; }
-	 */
+	public Map<Long, List<InputEvent>> getPlayerInputQueue(int index) {
+		return (index == 1) ? p1inputQueue : p2inputQueue;
+	}
 	
 	private void createFirstFrame() {
 		Point pos1 = new Point(1000, 700);
-		Vector2 momentum1 = new Vector2(0, 0);
+		Vector2 momentum1 = new Vector2(400, 1000);
 		Map<Key, Boolean> input1 = new HashMap<>();
 		for(Key key : Key.values()) {
 			input1.put(key, false);
