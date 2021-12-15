@@ -1,5 +1,6 @@
 package net.pacogames.coe.ui.buttons;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
@@ -24,6 +25,9 @@ public class Slider extends Button{
 		super.mouseMoved(x, y);
 		if(super.pressed && x >= getX() && x < getX() + getWidth()) {
 			value = (float) (x - getX()) / getWidth();
+			if (value >= 0.99) {
+				Gdx.app.exit();
+			}
 		}
 	}
 	

@@ -104,9 +104,11 @@ public class Match {
 			Vector2 p1dis = new Vector2(0, 0);
 			Vector2 p2dis = new Vector2(0, 0);
 
-			if ((p1momentum.x >= 0 && p1movement.x >= 0) || (p1momentum.x <= 0 && p1movement.x <= 0)) {
+			if ((p1momentum.x >= 0 && p1movement.x >= 0) || (p1momentum.x <= 0 && p1movement.x <= 0)) {	
 				p1dis.x = p1momentum.x * timeLeft + p1movement.x * Player.SPEED * timeLeft;
 			}
+			
+			p1dis.x = p1momentum.x * timeLeft;
 
 			if ((p1momentum.y >= 0 && p1movement.y >= 0) || (p1momentum.y <= 0 && p1movement.y <= 0)) {
 				p1dis.y = p1momentum.y * timeLeft + p1movement.y * Player.SPEED * timeLeft;

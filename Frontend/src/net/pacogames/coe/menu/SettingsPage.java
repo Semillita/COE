@@ -10,7 +10,7 @@ public class SettingsPage implements MenuPage{
 	private Slider volume;
 	
 	public SettingsPage() {
-		volume = new Slider(Resources.getTexture("textures/colors/black.png"), Resources.getTexture("menu/SliderMarker.png"));
+		volume = new Slider(Resources.getTexture("colors/black.png"), Resources.getTexture("colors/white.png"));
 	}
 	
 	@Override
@@ -21,7 +21,7 @@ public class SettingsPage implements MenuPage{
 
 	@Override
 	public void resize(int x, int width, int height) {
-		volume.setBounds(500, 500, 300, 50);
+		volume.setBounds(1600, 800, 300, 50);
 		
 	}
 
