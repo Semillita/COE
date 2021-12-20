@@ -4,7 +4,7 @@ public interface GameLogic {
 
 	public void startGame();
 	
-	public void getCurrentFrame();
+	public Frame getCurrentFrame();
 	
 	
 }

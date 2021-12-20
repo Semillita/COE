@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 
 import net.pacogames.coe.Scene;
 import net.pacogames.coe.logic.game.GameLogic;
+import net.pacogames.coe.logic.game.GameLogicImpl;
 
 public class GameScene implements Scene {
 
@@ -11,20 +12,20 @@ public class GameScene implements Scene {
 	private GameGraphics graphics;
 	
 	public GameScene() {
-		//logic.startGame();
+		logic = new GameLogicImpl();
+		graphics = new GameGraphicsImpl();
+		
+		logic.startGame();
 	}
 
 	@Override
 	public void render(Batch batch, double deltaTime) {
-		//currentFrame = logic.getCurrentFrame()
-		
-		
+		graphics.renderFrame(logic.getCurrentFrame());
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
-		
+		graphics.resize(width, height);
 	}
 	
 }
