@@ -10,27 +10,82 @@ import net.pacogames.coe.logic.utils.Point;
 import net.pacogames.coe.logic.utils.Vector2;
 
 public class Match {
-
+	
 	Map<Long, Frame> frames;
 	Map<Long, List<InputEvent>> p1inputQueue;
 	Map<Long, List<InputEvent>> p2inputQueue;
+	long lastFrame = 0;
 
-	// Player player1, player2;
-
+	private GameTimer gameTimer;
+	
 	public Match() {
 		frames = new HashMap<>();
 		p1inputQueue = new HashMap<>();
 		p2inputQueue = new HashMap<>();
+		
+		createFirstFrame();
+		
+		gameTimer = new GameTimer();
+		gameTimer.start();
 	}
-
+	
+	public Frame getClosestFrame() {
+		return frames.get(getClosestFrameStamp());
+	}
+	
+	public long getClosestFrameStamp() {
+		var timeElapsed = gameTimer.getTimeElapsed();
+		long index = (timeElapsed - (timeElapsed % Frame.LENGTH));
+		return index;
+	}
+	
+	public void updateFrames() {
+		var timeElapsed = gameTimer.getTimeElapsed();
+		long currentIndex = (timeElapsed - (timeElapsed % Frame.LENGTH));
+		for(long i = lastFrame + Frame.LENGTH; i < currentIndex + 2 * Frame.LENGTH; i += Frame.LENGTH) {
+			frames.put(i, createFrame(i));
+			lastFrame += Frame.LENGTH;
+		}
+	}
+	
+	public Map<Long, List<InputEvent>> getPlayerInputQueue(int index) {
+		return (index == 1) ? p1inputQueue : p2inputQueue;
+	}
+	
+	private void createFirstFrame() {
+		Point pos1 = new Point(1000, 700);
+		Vector2 momentum1 = new Vector2(400, 1000);
+		Map<Key, Boolean> input1 = new HashMap<>();
+		for(Key key : Key.values()) {
+			input1.put(key, false);
+		}
+		int stun1 = 0;
+		int damage1 = 0;
+		PlayerFrameData player1data = new PlayerFrameData(pos1, momentum1, input1, stun1, damage1);
+		
+		Point pos2 = new Point(1200, 700);
+		Vector2 momentum2 = new Vector2(0, 0);
+		Map<Key, Boolean> input2 = new HashMap<>();
+		for(Key key : Key.values()) {
+			input2.put(key, false);
+		}
+		int stun2 = 0;
+		int damage2 = 0;
+		PlayerFrameData player2data = new PlayerFrameData(pos2, momentum2, input2, stun2, damage2);
+		
+		Frame firstFrame = new Frame(0, player1data, player2data);
+		frames.put(0l, firstFrame);
+	}
+	
 	private Frame createFrame(long timeStamp) {
 		Frame lastFrame = frames.get(timeStamp - Frame.LENGTH);
+		
 
 		PlayerFrameData p1 = lastFrame.player1data;
 		PlayerFrameData p2 = lastFrame.player2data;
 
 		Map<Key, Boolean> p1input = p1.input;
-		Map<Key, Boolean> p2input = p1.input;
+	    Map<Key, Boolean> p2input = p2.input;
 
 		Vector2 p1movement = (p1.stun == 0) ? getMovement(p1input) : new Vector2(0, 0);
 		Vector2 p2movement = (p2.stun == 0) ? getMovement(p2input) : new Vector2(0, 0);
@@ -49,9 +104,11 @@ public class Match {
 			Vector2 p1dis = new Vector2(0, 0);
 			Vector2 p2dis = new Vector2(0, 0);
 
-			if ((p1momentum.x >= 0 && p1movement.x >= 0) || (p1momentum.x <= 0 && p1movement.x <= 0)) {
+			if ((p1momentum.x >= 0 && p1movement.x >= 0) || (p1momentum.x <= 0 && p1movement.x <= 0)) {	
 				p1dis.x = p1momentum.x * timeLeft + p1movement.x * Player.SPEED * timeLeft;
 			}
+			
+			p1dis.x = p1momentum.x * timeLeft;
 
 			if ((p1momentum.y >= 0 && p1movement.y >= 0) || (p1momentum.y <= 0 && p1movement.y <= 0)) {
 				p1dis.y = p1momentum.y * timeLeft + p1movement.y * Player.SPEED * timeLeft;
@@ -110,15 +167,17 @@ public class Match {
 		
 		Map<Key, Boolean> p2newInput = applyInputEvents(p2input, p2inputQueue.get(timeStamp));
 		PlayerFrameData player2data = new PlayerFrameData(p2pos, p2momentum, p2newInput, p2.stun - 1, 0);
-		
 		return new Frame(timeStamp + Frame.LENGTH, player1data, player2data);
 	}
 
 	private Map<Key, Boolean> applyInputEvents(Map<Key, Boolean> previous, List<InputEvent> inputs) {
 		Map<Key, Boolean> frameInput = new HashMap<>();
 		frameInput.putAll(previous);
-		for(InputEvent e : inputs) {
-			frameInput.put(e.key, e.pressed);
+		//OBS!!! Fixa så att inputs inte är null, dvs skapa för varje ny frame en tom inputs-lista och fyll sedan på
+		if(inputs != null) {
+			for(InputEvent e : inputs) {
+				frameInput.put(e.key, e.pressed);
+			}
 		}
 		return frameInput;
 	}

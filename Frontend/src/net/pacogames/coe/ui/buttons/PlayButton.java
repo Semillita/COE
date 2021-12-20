@@ -1,24 +1,30 @@
 package net.pacogames.coe.ui.buttons;
 
+import java.util.function.Consumer;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
 import net.pacogames.coe.resources.Resources;
 
-public class PlayButton extends ImageButton {
+public class PlayButton extends Button {
 	
-private Runnable onClick;
+private Consumer<Property> onClick;
 
 private Texture hoverTexture;
+
+private Property property;
 	
-	public PlayButton(Texture texture, Runnable onClick) {
+	public PlayButton(Texture texture, Consumer<Property> onClick, Property property) {
 		super(texture);
-		hoverTexture = Resources.getTexture("menu/TransparentWhitePixel.png");
+		this.property = property;
+		this.onClick = onClick;
+		hoverTexture = Resources.getTexture("colors/white_transparent.png");
 	}
 	
 	@Override
 	public void render(Batch batch) {
-		batch.draw(getTexture(), x, y, width, height);	
+		batch.draw(getBody(), x, y, width, height);	
 		if(hovered) {
 			batch.draw(hoverTexture, x, y, width, height);	
 		}
@@ -28,8 +34,12 @@ private Texture hoverTexture;
 	}
 	
 	@Override
-	public void hover(boolean hovered) {
-		this.hovered = hovered;
+	protected void onClick() {
+		onClick.accept(property);
+	}
+	
+	public static enum Property{
+		NORMAL, TRAINING, CUSTOM;
 	}
 }
 

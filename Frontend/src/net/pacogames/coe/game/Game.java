@@ -1,6 +1,10 @@
 package net.pacogames.coe.game;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -11,11 +15,12 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import net.pacogames.coe.Scene;
+import net.pacogames.coe.logic.game.Match;
 import net.pacogames.coe.resources.Resources;
 
-public class LocalGame implements Scene {
+public class Game extends Match implements Scene {
 
-private final int VIEWPORT_WIDTH = 3840, VIEWPORT_HEIGHT = 2160;
+	private final int VIEWPORT_WIDTH = 3840, VIEWPORT_HEIGHT = 2160;
 	
 	private Camera camera;
 	private Viewport viewport;
@@ -27,28 +32,49 @@ private final int VIEWPORT_WIDTH = 3840, VIEWPORT_HEIGHT = 2160;
 	private Player player1;
 	private Player player2;
 	
-	public LocalGame() {
+	private ExecutorService pool;
+	
+	int[] keys1;
+	int[] keys2;
+	
+	public Game() {
+		super();
+		
 		arena = new Arena();
 		
 		initCameraViewport();
 		
-		int[] keys1 = {
+		keys1 = new int[] {
 				Keys.W, Keys.D, Keys.S, Keys.A
 		};
-		player1 = new Player(this, keys1, Resources.getTexture("textures/player/red.png"), 1300, new Vector2(-1000, 1000));
+		player1 = new Player(this, keys1, Resources.getTexture("player/player1.png"), 1300, new Vector2(-1000, 1000));
 		
-		int[] keys2 = {
+		keys2 = new int[] {
 				Keys.UP, Keys.RIGHT, Keys.DOWN, Keys.LEFT
 		};
-		player2 = new Player(this, keys2, Resources.getTexture("textures/player/blue.png"), 1500, new Vector2(800, 1800));
+		player2 = new Player(this, keys2, Resources.getTexture("player/player2.png"), 1500, new Vector2(800, 1800));
+		
+		pool = Executors.newSingleThreadExecutor();
+		
+		//super.start();
+		
 	}
 	
 	@Override
 	public void render(Batch batch, double deltaTime) {
+		//Se till att frames finns:
+		super.updateFrames();
+		
+		//Plocka mest accurate frame
+		var frame = super.getClosestFrame();
+		var p1 = frame.player1data;
+		var p2 = frame.player2data;
+		
 		batch.setProjectionMatrix(camera.combined);
 		
-		player1.render(batch, deltaTime);
-		player2.render(batch, deltaTime);
+		//Rita spelare
+		player1.render(batch, (int) p1.pos.x, (int) p1.pos.y);
+		player2.render(batch, (int) p2.pos.x, (int) p2.pos.y);
 		
 		arena.render(batch);
 	}
@@ -59,6 +85,21 @@ private final int VIEWPORT_WIDTH = 3840, VIEWPORT_HEIGHT = 2160;
 		camera.position.set(VIEWPORT_WIDTH / 2f, VIEWPORT_HEIGHT / 2f, 0);
 		viewport.apply();
 		
+	}
+	
+	public void setInputListener() {
+		Gdx.input.setInputProcessor(new InputAdapter() {
+			@Override
+			public boolean keyDown(int keyCode) {
+				long timeStamp = getClosestFrameStamp();
+				if(keyCode == keys1[0]) {
+					getPlayerInputQueue(1); //put input event into input queue
+				} else if(keyCode == keys1[1]) {
+					
+				}
+				return false;
+			}
+		});
 	}
 	
 	private void initCameraViewport() {

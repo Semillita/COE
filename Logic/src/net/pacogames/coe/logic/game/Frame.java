@@ -14,6 +14,7 @@ public class Frame {
 	
 	public Frame(long timeStamp, PlayerFrameData player1, PlayerFrameData player2) {
 		this.timeStamp = timeStamp;
-		
+		this.player1data = player1;
+		this.player2data = player2;
 	}
 }

@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 
 import net.pacogames.coe.menu.MenuPage;
+import net.pacogames.coe.menu.PageProperty;
 import net.pacogames.coe.menu.PlayPage;
 import net.pacogames.coe.menu.SettingsPage;
 import net.pacogames.coe.resources.Resources;
@@ -29,19 +30,19 @@ public class NavBar {
 	
 	List<NavButton> buttons;
 	
-	public NavBar (int x,int y, int width, int height, Consumer<MenuPage> onButtonClick) {
-		background = new Texture("menu/BlackPixel.png");
-		var settingsTexture = Resources.getTexture("menu/SETTINGS.png");
-		var playTexture = Resources.getTexture("menu/SETTINGS.png");
+	public NavBar (int x,int y, int width, int height, Consumer<PageProperty> onButtonClick) {
+		background = Resources.getTexture("colors/black.png");
+		var settingsTexture = Resources.getTexture("buttons/nav/settings.png");
+		var playTexture = Resources.getTexture("buttons/nav/play.png");
 		
-		settingsButton = new NavButton(settingsTexture, () -> onButtonClick.accept(new SettingsPage()));
 		playButton = new NavButton(playTexture, () -> {
-			onButtonClick.accept(new PlayPage());
+			onButtonClick.accept(PageProperty.PLAY);
 		});
+		settingsButton = new NavButton(settingsTexture, () -> onButtonClick.accept(PageProperty.SETTINGS));
 		
 		buttons = new ArrayList<>();
-		buttons.add(settingsButton);
 		buttons.add(playButton);
+		buttons.add(settingsButton);
 	}
 	
 	public void render(Batch batch) {
@@ -66,20 +67,25 @@ public class NavBar {
 		}
 	}
 	
-	public void click() {
+	public void mousePressed(int x, int y) {
 		for(NavButton button : buttons) {
-			button.press();
+			button.mousePressed(x, y);
+		}
+	}
+	
+	public void mouseReleased(int x, int y) {
+		for(NavButton button : buttons) {
+			button.mouseReleased(x, y);
 		}
 	}
 	
 	private void positionButtons(final int x, final int y, final int width, final int height) {
-		int xPos = 10 + x;
+		int xPos = 100 + x;
 		for(NavButton button : buttons) {
-			Texture buttonTexture = button.getTexture();
+			Texture buttonTexture = button.getBody();
 			int yPos = (height - buttonTexture.getHeight())/2 + y;
-			System.out.println(xPos + ", " + yPos);
 			button.setBounds(xPos, yPos, buttonTexture.getWidth(), buttonTexture.getHeight());
-			xPos += buttonTexture.getWidth() + 200;
+			xPos += buttonTexture.getWidth() + 100;
 		}
 	}
 

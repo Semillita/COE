@@ -16,6 +16,7 @@ public class Resources {
 	private static Map<String, Texture> textures = new HashMap<>();
 	
 	public static Texture getTexture(String path) {
+		path = "textures/" + path;
 		return (textures.containsKey(path)) ? textures.get(path) : createTexture(path);
 	}
 	

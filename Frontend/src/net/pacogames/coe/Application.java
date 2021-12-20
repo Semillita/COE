@@ -5,7 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import net.pacogames.coe.game.LocalGame;
+import net.pacogames.coe.game.Game;
 import net.pacogames.coe.menu.MainMenu;
 
 public class Application extends ApplicationAdapter {
@@ -15,10 +15,13 @@ public class Application extends ApplicationAdapter {
 	
 	double nanoTime;
 	
+	private int iteration = 0;
+	private int windowWidth, windowHeight;
+	
 	@Override
 	public void create() {
 		batch = new SpriteBatch();
-		scene = new LocalGame();
+		setScene(new MainMenu(() -> setScene(new Game())));
 		
 		//Borderless windowed fullscreen
 		System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
@@ -41,11 +44,20 @@ public class Application extends ApplicationAdapter {
 	@Override
 	public void resize(int width, int height) {
 		scene.resize(width, height);
+		windowWidth = width;
+		windowHeight = height;
+
 	}
 	
 	@Override
 	public void dispose() {
 		
+	}
+	
+	private void setScene(Scene scene) {
+		this.scene = scene;
+		scene.resize(windowWidth, windowHeight);
+		batch = new SpriteBatch();
 	}
 	
 	private double getDeltaTime() {
