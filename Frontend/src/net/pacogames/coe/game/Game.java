@@ -61,7 +61,7 @@ public class Game extends Match implements Scene {
 	}
 	
 	@Override
-	public void render(Batch batch, double deltaTime) {
+	public void render(Batch batch) {
 		//Se till att frames finns:
 		super.updateFrames();
 		

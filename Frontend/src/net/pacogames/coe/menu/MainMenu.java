@@ -24,7 +24,6 @@ public class MainMenu implements Scene {
 	
 	private Camera camera;
 	private Viewport viewport;
-	private Button button;
 	private MenuPage page;
 	private NavBar navBar;
 	private Texture bg;
@@ -52,11 +51,6 @@ public class MainMenu implements Scene {
 				});
 		setInputListener();
 		
-		/*
-		 * page = new PlayPage((prop) -> { if(prop == PlayButton.Property.NORMAL) {
-		 * onPlay.run(); } });
-		 */
-		
 		page = new PlayPage((prop) -> {
 			if(prop == PlayButton.Property.NORMAL) {
 				onPlay.run();
@@ -66,7 +60,7 @@ public class MainMenu implements Scene {
 	}
 	
 	@Override
-	public void render(Batch batch, double deltaTime) {
+	public void render(Batch batch) {
 		batch.setProjectionMatrix(camera.combined);
 		batch.draw(bg, (viewport.getWorldWidth() - VIEWPORT_WIDTH)/2, (viewport.getWorldHeight() - VIEWPORT_HEIGHT)/2, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
 		navBar.render(batch);
@@ -100,12 +94,6 @@ public class MainMenu implements Scene {
 			}
 
 			@Override
-			public boolean scrolled(int arg0) {
-				// TODO Auto-generated method stub
-				return false;
-			}
-
-			@Override
 			public boolean touchDown(int x, int y, int pointer, int button) {
 				Vector3 worldCords = new Vector3(x, y, 0);
 				worldCords = camera.unproject(worldCords);
@@ -132,7 +120,6 @@ public class MainMenu implements Scene {
 				mouseMoved(x, y);
 				return false;
 			}
-			
 		}); 
 	}
 	

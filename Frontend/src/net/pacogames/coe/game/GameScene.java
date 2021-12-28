@@ -19,8 +19,8 @@ public class GameScene implements Scene {
 	}
 
 	@Override
-	public void render(Batch batch, double deltaTime) {
-		graphics.renderFrame(logic.getCurrentFrame());
+	public void render(Batch batch) {
+		graphics.renderFrame(batch, logic.getCurrentFrame());
 	}
 
 	@Override
