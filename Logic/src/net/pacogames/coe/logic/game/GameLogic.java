@@ -6,5 +6,7 @@ public interface GameLogic {
 	
 	public Frame getCurrentFrame();
 	
+	public void registerInput(int playerID, InputEvent event, long timestamp);
+	
 	
 }

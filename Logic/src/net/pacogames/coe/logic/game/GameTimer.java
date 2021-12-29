@@ -14,8 +14,8 @@ public class GameTimer {
 	}
 	
 	/**Time since the game started in milliseconds*/
-	protected long getTimeElapsed() {
-		return (System.nanoTime() - startTime) / 1_000_000;
+	protected long getTimeElapsed(long timestamp) {
+		return (timestamp - startTime) / 1_000_000;
 	}
 	
 }
