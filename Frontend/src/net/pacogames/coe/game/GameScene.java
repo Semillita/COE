@@ -10,16 +10,17 @@ public class GameScene implements Scene {
 
 	private GameLogic logic;
 	private GameGraphics graphics;
-	
+
 	public GameScene() {
 		logic = new GameLogicImpl();
 		graphics = new GameGraphicsImpl();
-		
+
 		logic.startGame();
 	}
 
 	@Override
 	public void render(Batch batch) {
+		logic.loadAdvanceFrames();
 		graphics.renderFrame(batch, logic.getCurrentFrame());
 	}
 
@@ -27,5 +28,5 @@ public class GameScene implements Scene {
 	public void resize(int width, int height) {
 		graphics.resize(width, height);
 	}
-	
+
 }

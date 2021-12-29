@@ -2,7 +2,7 @@ package net.pacogames.coe.logic.game;
 
 public class GameTimer {
 
-	//The match's starting time stamp in nanoseconds
+	/**The match's starting time stamp in nanoseconds*/
 	private long startTime;
 	
 	public GameTimer() {
@@ -13,9 +13,9 @@ public class GameTimer {
 		startTime = System.nanoTime();
 	}
 	
-	/**Time since the game started in milliseconds*/
+	/**Time since the game started in nanoseconds*/
 	protected long getTimeElapsed(long timestamp) {
-		return (timestamp - startTime) / 1_000_000;
+		return timestamp - startTime;
 	}
 	
 }
