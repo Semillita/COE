@@ -7,8 +7,13 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import net.pacogames.coe.logic.utils.Point;
+import net.pacogames.coe.logic.utils.Vector2;
+
 public class GameLogicImpl implements GameLogic {
 
+	private static final String i = "    ";
+	
 	private Map<Long, Frame> frames;
 	private Map<Long, List<InputEvent>> p1inputQueue;
 	private Map<Long, List<InputEvent>> p2inputQueue;
@@ -27,12 +32,14 @@ public class GameLogicImpl implements GameLogic {
 	
 	@Override
 	public void startGame() {
+		createFirstFrame();
 		gameTimer.start();
 	}
 
 	@Override
 	public Frame getCurrentFrame() {
-		var framestamp = getClosestFramestamp(System.nanoTime(), false);
+		var timeElapsed = gameTimer.getTimeElapsed(System.nanoTime());
+		var framestamp = getClosestFramestamp(timeElapsed, false);
 		return frames.containsKey(framestamp) ? frames.get(framestamp) : null;
 	}
 
@@ -52,7 +59,8 @@ public class GameLogicImpl implements GameLogic {
 	
 	@Override
 	public void registerInput(int playerID, InputEvent event, long timestamp) {
-		var framestamp = getClosestFramestamp(timestamp, true);
+		var timeElapsed = gameTimer.getTimeElapsed(timestamp);
+		var framestamp = getClosestFramestamp(timeElapsed, true);
 		var queue = (playerID == 1) ? p1inputQueue : p2inputQueue;
 		
 		if(queue.containsKey(framestamp)) {
@@ -63,11 +71,37 @@ public class GameLogicImpl implements GameLogic {
 	}
 	
 	private Frame createFrame(long framestamp) {
-		return null;
+		var lastFrame = frames.get(framestamp - 1);
+		return lastFrame;
 	}
 	
-	private long getClosestFramestamp(long timestamp, boolean roundUp) {
-		var timeElapsed = gameTimer.getTimeElapsed(timestamp);
+	private void createFirstFrame() {
+		Point pos1 = new Point(1000, 700);
+		Vector2 momentum1 = new Vector2(400, 1000);
+		Map<Key, Boolean> input1 = new HashMap<>();
+		for(Key key : Key.values()) {
+			input1.put(key, false);
+		}
+		int stun1 = 0;
+		int damage1 = 0;
+		PlayerFrameData player1data = new PlayerFrameData(pos1, momentum1, input1, stun1, damage1);
+		
+		Point pos2 = new Point(1200, 700);
+		Vector2 momentum2 = new Vector2(0, 0);
+		Map<Key, Boolean> input2 = new HashMap<>();
+		for(Key key : Key.values()) {
+			input2.put(key, false);
+		}
+		int stun2 = 0;
+		int damage2 = 0;
+		PlayerFrameData player2data = new PlayerFrameData(pos2, momentum2, input2, stun2, damage2);
+		
+		Frame firstFrame = new Frame(0, player1data, player2data);
+		frames.put(0l, firstFrame);
+		
+	}
+	
+	private long getClosestFramestamp(long timeElapsed, boolean roundUp) {
 		float frameIndex = (timeElapsed / (float) Frame.LENGTH);
 		long framestamp = (long) (roundUp ? Math.ceil(frameIndex) : Math.floor(frameIndex));
 		return framestamp;

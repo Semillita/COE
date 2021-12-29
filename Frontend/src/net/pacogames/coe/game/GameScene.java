@@ -21,7 +21,8 @@ public class GameScene implements Scene {
 	@Override
 	public void render(Batch batch) {
 		logic.loadAdvanceFrames();
-		graphics.renderFrame(batch, logic.getCurrentFrame());
+		var currentFrame = logic.getCurrentFrame();
+		graphics.renderFrame(batch, currentFrame);
 	}
 
 	@Override
