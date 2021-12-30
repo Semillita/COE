@@ -2,7 +2,7 @@ package net.pacogames.coe.game;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 
-import net.pacogames.coe.logic.game.Frame;
+import net.pacogames.coe.logic.game.runtime.Frame;
 
 public interface GameGraphics {
 

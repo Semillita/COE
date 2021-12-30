@@ -9,10 +9,10 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
 import net.pacogames.coe.Scene;
-import net.pacogames.coe.logic.game.GameLogic;
-import net.pacogames.coe.logic.game.GameLogicImpl;
-import net.pacogames.coe.logic.game.InputEvent;
-import net.pacogames.coe.logic.game.Key;
+import net.pacogames.coe.logic.game.input.InputEvent;
+import net.pacogames.coe.logic.game.input.Key;
+import net.pacogames.coe.logic.game.runtime.GameLogic;
+import net.pacogames.coe.logic.game.runtime.GameLogicImpl;
 
 public class GameScene implements Scene {
 

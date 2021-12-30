@@ -1,4 +1,4 @@
-package net.pacogames.coe.logic.game;
+package net.pacogames.coe.logic.game.runtime;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import net.pacogames.coe.logic.game.input.InputEvent;
+import net.pacogames.coe.logic.game.input.Key;
 import net.pacogames.coe.logic.utils.Point;
 import net.pacogames.coe.logic.utils.Vector2;
 

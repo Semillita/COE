@@ -1,5 +1,7 @@
 package net.pacogames.coe.logic.game;
 
+import net.pacogames.coe.logic.game.physics.Hitbox;
+
 public class ArenaHitbox implements Hitbox {
 
 	private static final float X = 0, Y = 0;

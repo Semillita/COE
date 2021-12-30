@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import net.pacogames.coe.logic.game.Frame;
+import net.pacogames.coe.logic.game.runtime.Frame;
 
 public class GameGraphicsImpl implements GameGraphics {
 

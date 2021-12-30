@@ -1,4 +1,4 @@
-package net.pacogames.coe.logic.game;
+package net.pacogames.coe.logic.game.runtime;
 
 public class GameTimer {
 

@@ -1,7 +1,8 @@
-package net.pacogames.coe.logic.game;
+package net.pacogames.coe.logic.game.runtime;
 
 import java.util.Map;
 
+import net.pacogames.coe.logic.game.input.Key;
 import net.pacogames.coe.logic.utils.Point;
 import net.pacogames.coe.logic.utils.Vector2;
 
