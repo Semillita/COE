@@ -1,20 +1,38 @@
 package net.pacogames.coe.game;
 
+import java.util.Arrays;
+import java.util.List;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
 import net.pacogames.coe.Scene;
 import net.pacogames.coe.logic.game.GameLogic;
 import net.pacogames.coe.logic.game.GameLogicImpl;
+import net.pacogames.coe.logic.game.InputEvent;
+import net.pacogames.coe.logic.game.Key;
 
 public class GameScene implements Scene {
 
+	private final int[] keys1 = {
+			Keys.W, Keys.D, Keys.S, Keys.A
+	};
+	
+	private final int[] keys2 = {
+			Keys.UP, Keys.RIGHT, Keys.DOWN, Keys.LEFT
+	};
+	
 	private GameLogic logic;
 	private GameGraphics graphics;
-
+	
 	public GameScene() {
 		logic = new GameLogicImpl();
 		graphics = new GameGraphicsImpl();
 
+		setInputListener();
+		
 		logic.startGame();
 	}
 
@@ -30,4 +48,32 @@ public class GameScene implements Scene {
 		graphics.resize(width, height);
 	}
 
+	private void setInputListener() {
+		Gdx.input.setInputProcessor(new InputAdapter() {
+			
+			@Override
+			public boolean keyDown(int keycode) {
+				 registerInput(keycode, true);
+				return false;
+			}
+			
+			@Override
+			public boolean keyUp(int keycode) {
+				registerInput(keycode, false);
+				return false;
+			}
+		});
+	}
+	
+	private void registerInput(int keycode, boolean pressed) {
+		for(int playerID = 1; playerID <= 2; playerID++) {
+			var playerKeys = (playerID == 1) ? keys1 : keys2;
+			for(int index = 0; index < 4; index++) {
+				if(keycode == playerKeys[index]) {
+					var key = Key.values()[index];
+					logic.registerInput(playerID, new InputEvent(key, pressed), System.nanoTime());
+				}
+			}
+		}
+	}
 }
