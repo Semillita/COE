@@ -5,7 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import net.pacogames.coe.game.Game;
+import net.pacogames.coe.game.GameScene;
 import net.pacogames.coe.menu.MainMenu;
 
 public class Application extends ApplicationAdapter {
@@ -19,7 +19,7 @@ public class Application extends ApplicationAdapter {
 	@Override
 	public void create() {
 		batch = new SpriteBatch();
-		setScene(new MainMenu(() -> setScene(new Game())));
+		setScene(new MainMenu(() -> setScene(new GameScene())));
 
 		setDisplayMode();
 	}
