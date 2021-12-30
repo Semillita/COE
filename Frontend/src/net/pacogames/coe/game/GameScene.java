@@ -32,7 +32,6 @@ public class GameScene implements Scene {
 		graphics = new GameGraphicsImpl();
 
 		setInputListener();
-		
 		logic.startGame();
 	}
 
