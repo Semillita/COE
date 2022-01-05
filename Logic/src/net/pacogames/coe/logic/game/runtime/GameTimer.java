@@ -14,7 +14,7 @@ public class GameTimer {
 	}
 	
 	/**Time since the game started in nanoseconds*/
-	protected long getTimeElapsed(long timestamp) {
+	public long getTimeElapsed(long timestamp) {
 		return timestamp - startTime;
 	}
 	

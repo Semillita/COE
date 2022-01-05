@@ -14,4 +14,8 @@ public class Point {
 		y += v.y;
 	}
 	
+	public Point clone() {
+		return new Point(x, y);
+	}
+	
 }

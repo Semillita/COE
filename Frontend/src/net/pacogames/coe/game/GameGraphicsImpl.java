@@ -18,24 +18,27 @@ public class GameGraphicsImpl implements GameGraphics {
 	private Viewport viewport;
 
 	private PlayerSprite player1, player2;
+	private ArenaSprite arena;
 
 	public GameGraphicsImpl() {
 		initCameraViewport();
 
 		player1 = new PlayerSprite(1);
 		player2 = new PlayerSprite(2);
+		arena = new ArenaSprite();
 	}
 
 	@Override
 	public void renderFrame(Batch batch, Frame frame) {
 		batch.setProjectionMatrix(camera.combined);
-
+		
 		var p1pos = frame.player1data.pos;
 		var p2pos = frame.player2data.pos;
-
+		
 		player1.render(batch, p1pos.x, p1pos.y);
 		player2.render(batch, p2pos.x, p2pos.y);
 
+		arena.render(batch);
 	}
 
 	@Override
@@ -43,6 +46,12 @@ public class GameGraphicsImpl implements GameGraphics {
 		viewport.update(viewportWidth, viewportHeight, true);
 		camera.position.set(VIEWPORT_WIDTH / 2f, VIEWPORT_HEIGHT / 2f, 0);
 		viewport.apply();
+		
+		var centerX = VIEWPORT_WIDTH / 2;
+		var centerY = VIEWPORT_HEIGHT / 2;
+		player1.setPosition(centerX - 1400 + 220, centerY - 900 + 220);
+		player2.setPosition(centerX - 1400 + 220, centerY - 900 + 220);
+		arena.setPosition(centerX - 1400, centerY - 900);
 	}
 
 	private void initCameraViewport() {

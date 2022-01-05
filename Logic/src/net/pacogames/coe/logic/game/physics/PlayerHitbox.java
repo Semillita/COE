@@ -1,6 +1,6 @@
-package net.pacogames.coe.logic.game;
+package net.pacogames.coe.logic.game.physics;
 
-import net.pacogames.coe.logic.game.physics.Hitbox;
+import net.pacogames.coe.logic.game.Player;
 import net.pacogames.coe.logic.utils.Point;
 
 public class PlayerHitbox implements Hitbox {

@@ -39,6 +39,11 @@ public class GameScene implements Scene {
 	public void render(Batch batch) {
 		logic.loadAdvanceFrames();
 		var currentFrame = logic.getCurrentFrame();
+		
+		var timeElapsed = ((GameLogicImpl) logic).gameTimer.getTimeElapsed(System.nanoTime());
+		
+		//System.out.println("Should render frame " + ((GameLogicImpl) logic).getClosestFramestamp(timeElapsed, false));
+		
 		graphics.renderFrame(batch, currentFrame);
 	}
 
