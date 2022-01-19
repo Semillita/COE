@@ -79,9 +79,19 @@ public class GameLogicImpl implements GameLogic {
 			events.add(event);
 			queue.put(framestamp, events);
 		}
+		
+		System.out.println("Input at framestamp " + framestamp);
+		
+		frameLoader.execute(() -> {
+			for(long fs = framestamp; fs <= framestamp + 5; fs++) {
+				frames.put(fs, createFrame(fs));
+			}
+		});
 	}
 
 	private Frame createFrame(long framestamp) {
+		System.out.println("Creating frame " + framestamp);
+		
 		var lastFrame = frames.get(framestamp - 1);
 		var p1data = lastFrame.player1data;
 		var p2data = lastFrame.player2data;
