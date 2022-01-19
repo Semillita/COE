@@ -27,6 +27,7 @@ public class MainMenu implements Scene {
 	private MenuPage page;
 	private NavBar navBar;
 	private Texture bg;
+	private Texture logo;
 
 	private final int VIEWPORT_WIDTH = 3840, VIEWPORT_HEIGHT = 2160;
 
@@ -56,13 +57,16 @@ public class MainMenu implements Scene {
 				onPlay.run();
 			}
 		});
-		bg = Resources.getTexture("backgrounds/main_menu.png");
+		bg = Resources.getTexture("backgrounds/main_menu_high_res.png");
+		logo = Resources.getTexture("backgrounds/main_menu_logo.png");
 	}
 
 	@Override
 	public void render(Batch batch) {
 		batch.setProjectionMatrix(camera.combined);
 		batch.draw(bg, (viewport.getWorldWidth() - VIEWPORT_WIDTH) / 2,
+				(viewport.getWorldHeight() - VIEWPORT_HEIGHT) / 2, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+		batch.draw(logo, (viewport.getWorldWidth() - VIEWPORT_WIDTH) / 2,
 				(viewport.getWorldHeight() - VIEWPORT_HEIGHT) / 2, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
 		navBar.render(batch);
 		page.render(batch);
@@ -77,8 +81,8 @@ public class MainMenu implements Scene {
 		viewport.apply();
 
 		navBar.setBounds((int) (VIEWPORT_WIDTH - viewport.getWorldWidth()) / 2,
-				(int) (viewport.getWorldHeight() - 200 - (viewport.getWorldHeight() - VIEWPORT_HEIGHT) / 2),
-				(int) viewport.getWorldWidth(), 200);
+				(int) (viewport.getWorldHeight() - 150 - (viewport.getWorldHeight() - VIEWPORT_HEIGHT) / 2),
+				(int) viewport.getWorldWidth(), 150);
 
 		page.resize((int) (viewport.getWorldWidth() - VIEWPORT_WIDTH) / 2, (int) viewport.getWorldWidth(),
 				(int) viewport.getWorldHeight() - 200);
