@@ -21,7 +21,7 @@ public class Application extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		setScene(new MainMenu(() -> setScene(new GameScene())));
 
-		setDisplayMode();
+		//setDisplayMode();
 	}
 
 	@Override

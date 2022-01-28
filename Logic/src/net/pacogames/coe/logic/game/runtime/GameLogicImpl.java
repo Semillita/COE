@@ -13,6 +13,7 @@ import net.pacogames.coe.logic.game.Player;
 import net.pacogames.coe.logic.game.input.InputEvent;
 import net.pacogames.coe.logic.game.input.Key;
 import net.pacogames.coe.logic.game.physics.GamePhysics;
+import net.pacogames.coe.logic.utils.Logger;
 import net.pacogames.coe.logic.utils.Point;
 import net.pacogames.coe.logic.utils.Vector2;
 
@@ -25,7 +26,7 @@ public class GameLogicImpl implements GameLogic {
 	public GameTimer gameTimer;
 	private ExecutorService frameLoader;
 	private GamePhysics physics;
-	
+
 	private long lastFramestamp;
 
 	public GameLogicImpl() {
@@ -48,7 +49,8 @@ public class GameLogicImpl implements GameLogic {
 	public Frame getCurrentFrame() {
 		var timeElapsed = gameTimer.getTimeElapsed(System.nanoTime());
 		var framestamp = getClosestFramestamp(timeElapsed, false);
-		while(!frames.containsKey(framestamp)) {}
+		while (!frames.containsKey(framestamp)) {
+		}
 		return frames.containsKey(framestamp) ? frames.get(framestamp) : null;
 	}
 
@@ -79,46 +81,66 @@ public class GameLogicImpl implements GameLogic {
 			events.add(event);
 			queue.put(framestamp, events);
 		}
-		
-		System.out.println("Input at framestamp " + framestamp);
-		
+
 		frameLoader.execute(() -> {
-			for(long fs = framestamp; fs <= framestamp + 5; fs++) {
+			for (long fs = framestamp; fs <= framestamp + 5; fs++) {	
 				frames.put(fs, createFrame(fs));
 			}
 		});
 	}
 
 	private Frame createFrame(long framestamp) {
-		System.out.println("Creating frame " + framestamp);
+		Logger.log("Creating frame " + framestamp);
 		
 		var lastFrame = frames.get(framestamp - 1);
 		var p1data = lastFrame.player1data;
 		var p2data = lastFrame.player2data;
-		
-		var p1movement = (p1data.stun == 0) ? physics.getMovement(p1data.input) : new Vector2(0, 0);
-		var p2movement = (p2data.stun == 0) ? physics.getMovement(p2data.input) : new Vector2(0, 0);
-		
+
+		var p1movement = (p1data.stun <= 0) ? physics.getMovement(p1data.input) : new Vector2(0, 0);
+		var p2movement = (p2data.stun <= 0) ? physics.getMovement(p2data.input) : new Vector2(0, 0);
+
 		var p1pos = p1data.pos.clone();
 		var p2pos = p2data.pos.clone();
-		
+
 		var p1momentum = p1data.momentum.clone();
 		var p2momentum = p2data.momentum.clone();
 		
-		long frameTimeElapsed = 0;
 		
-		while(true) {
+		
+		long frameTimeElapsed = 0;
+
+		Collision lastCollision = null;
+
+		while (true) {
 			long timeLeft = Frame.LENGTH - frameTimeElapsed;
-			
+
 			final float speed = Player.SPEED;
 			final float retardation = Player.RETARDATION;
-			
+			final float manualRetardation = Player.MANUAL_RETARDATION;
+
 			float secondsLeft = timeLeft / 1_000_000_000f;
+
+			Vector2 p1distance = new Vector2(p1momentum.x * secondsLeft + p1movement.x * speed * secondsLeft,
+					p1momentum.y * secondsLeft + p1movement.y * speed * secondsLeft);
+			Vector2 p2distance = new Vector2(p2momentum.x * secondsLeft + p2movement.x * speed * secondsLeft,
+					p2momentum.y * secondsLeft + p2movement.y * speed * secondsLeft);
+
+			// Här vill jag nog snarare bara definiera distance som det avstånd som skapas av momentumet, 
+			// och sedan kolla ifall kraftens riktning stämmer ihop med momentumet i respektive riktning 
+			// varpå jag adderar det till distance förutsatt att lastCollision.event != Collision.Event.P1P2X/Y 
+			// och annars vill jag sakta ner momentumet med timeLeft * [konstant för manuell retardation] i rätt dimension.
 			
-			Vector2 p1distance = new Vector2(p1momentum.x * secondsLeft + p1movement.x * speed * secondsLeft, p1momentum.y * secondsLeft + p1movement.y * speed * secondsLeft);
-			Vector2 p2distance = new Vector2(p2momentum.x * secondsLeft + p2movement.x * speed * secondsLeft, p2momentum.y * secondsLeft + p2movement.y * speed * secondsLeft);
-			
-			Collision c = physics.getNextCollision(p1pos, p2pos, p1distance, p2distance, timeLeft);
+			if (lastCollision != null && lastCollision.event == Collision.Event.P1P2X) {
+					// I slutet av senaste intervallet krockade spelarna i x-axeln, så de har fått
+					// nya momentum (troligtvis), så jag ska nu kolla ifall de fortfarande försöker gå förbi varandra.
+					// Vill troligtvis applicera kraften på momentumet så tidigt som möjligt i framen, kan nog vara okej 
+					// att ta det lite för tidigt för att vara 100% logiskt när jag har hög frame rate. 
+				
+				
+			}
+
+			Collision c = physics.getNextCollision(p1pos, p2pos, p1distance, p2distance, p1momentum, p2momentum,
+					timeLeft);
 			if (c == null) {
 				applyIntervalChanges(p1pos, p2pos, p1distance, p2distance);
 				applyRetardation(p1momentum, retardation * (timeLeft / 1_000_000_000f));
@@ -132,7 +154,7 @@ public class GameLogicImpl implements GameLogic {
 					break;
 				case P1ARENAY:
 					p1momentum.y *= -0.9;
-					
+
 					break;
 				case P2ARENAX:
 					p2momentum.x *= -0.9;
@@ -151,65 +173,67 @@ public class GameLogicImpl implements GameLogic {
 					float y2 = p1momentum.y * 0.8f;
 					p1momentum.y = y1;
 					p2momentum.y = y2;
-					break;	
+					break;
 				}
-				
+
 				frameTimeElapsed += c.time;
-				
+
 				var p1d = new Vector2(p1distance.x * seconds, p1distance.y * seconds);
 				var p2d = new Vector2(p2distance.x * seconds, p2distance.y * seconds);
-				
+
 				applyIntervalChanges(p1pos, p2pos, p1d, p2d);
-				
+
 				applyRetardation(p1momentum, retardation * (c.time / 1_000_000_000));
 				applyRetardation(p2momentum, retardation * (c.time / 1_000_000_000));
+
+				lastCollision = c;
 			}
-			
+
 			break;
 		}
-				Map<Key, Boolean> p1newInput = applyInputEvents(p1data.input, p1inputQueue.get(framestamp));
-				PlayerFrameData player1data = new PlayerFrameData(p1pos, p1momentum, p1newInput, p1data.stun - 1, 0);
-				
-				Map<Key, Boolean> p2newInput = applyInputEvents(p2data.input, p2inputQueue.get(framestamp));
-				PlayerFrameData player2data = new PlayerFrameData(p2pos, p2momentum, p2newInput, p2data.stun - 1, 0);
-				
-				lastFramestamp = framestamp;
-				
-				return new Frame(framestamp, player1data, player2data);
+		Map<Key, Boolean> p1newInput = applyInputEvents(p1data.input, p1inputQueue.get(framestamp));
+		PlayerFrameData player1data = new PlayerFrameData(p1pos, p1momentum, p1newInput, p1data.stun - 1, 0);
+
+		Map<Key, Boolean> p2newInput = applyInputEvents(p2data.input, p2inputQueue.get(framestamp));
+		PlayerFrameData player2data = new PlayerFrameData(p2pos, p2momentum, p2newInput, p2data.stun - 1, 0);
+
+		lastFramestamp = framestamp;
+
+		return new Frame(framestamp, player1data, player2data);
 	}
 
 	private void applyIntervalChanges(Point p1pos, Point p2pos, Vector2 p1dis, Vector2 p2dis) {
 		p1pos.add(p1dis);
 		p2pos.add(p2dis);
 	}
-	
+
 	private void applyRetardation(Vector2 momentum, float retardation) {
-		if(momentum.x == 0 && momentum.y == 0) {
+		if (momentum.x == 0 && momentum.y == 0) {
 			return;
 		}
-		
+
 		var absX = Math.abs(momentum.x);
 		var absY = Math.abs(momentum.y);
 		var total = absX + absY;
-		
+
 		var retX = retardation * (absX / total);
 		var retY = retardation * (absY / total);
-		
+
 		momentum.x = (momentum.x > 0) ? Math.max(momentum.x - retX, 0) : Math.min(momentum.x + retX, 0);
 		momentum.y = (momentum.y > 0) ? Math.max(momentum.y - retY, 0) : Math.min(momentum.y + retY, 0);
 	}
-	
+
 	private Map<Key, Boolean> applyInputEvents(Map<Key, Boolean> previous, List<InputEvent> inputs) {
 		Map<Key, Boolean> frameInput = new HashMap<>();
 		frameInput.putAll(previous);
-		if(inputs != null) {
-			for(InputEvent e : inputs) {
+		if (inputs != null) {
+			for (InputEvent e : inputs) {
 				frameInput.put(e.key, e.pressed);
 			}
 		}
 		return frameInput;
 	}
-	
+
 	private void createFirstFrame() {
 		Point pos1 = new Point(1000, 700);
 		Vector2 momentum1 = new Vector2(-1200, -700);

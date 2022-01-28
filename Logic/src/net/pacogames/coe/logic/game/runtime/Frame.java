@@ -6,7 +6,7 @@ import java.util.Map;
 public class Frame {
 
 	//Frame length in milliseconds
-	public static final int LENGTH = 40_000_000;
+	public static final int LENGTH = 1_000_000;
 	
 	public final long stamp;
 	public PlayerFrameData player1data;

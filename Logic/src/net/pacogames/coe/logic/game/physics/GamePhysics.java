@@ -10,7 +10,8 @@ import static net.pacogames.coe.logic.game.physics.Collision.Event;
 
 public class GamePhysics {
 	
-	public Collision getNextCollision(Point p1pos, Point p2pos, Vector2 p1distance, Vector2 p2distance, long timeLeft) {
+	public Collision getNextCollision(Point p1pos, Point p2pos, Vector2 p1distance, Vector2 p2distance, 
+			Vector2 p1momentum, Vector2 p2momentum, long timeLeft) {
 		Hitbox p1box = new PlayerHitbox(p1pos);
 		Hitbox p2box = new PlayerHitbox(p2pos);
 		
