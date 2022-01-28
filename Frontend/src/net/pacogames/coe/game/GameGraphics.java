@@ -6,8 +6,10 @@ import net.pacogames.coe.logic.game.runtime.Frame;
 
 public interface GameGraphics {
 
-	public void renderFrame(Batch batch, Frame frame);
+	/**Renders a frame*/
+	public void renderFrame(Frame frame);
 	
+	/**Updates the scene's layout*/
 	public void resize(int viewportWidth, int viewportHeight);
 	
 }

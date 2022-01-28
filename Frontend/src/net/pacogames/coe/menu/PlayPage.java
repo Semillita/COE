@@ -6,37 +6,49 @@ import java.util.function.Consumer;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.math.Rectangle;
-
-import net.pacogames.coe.resources.Resources;
-import net.pacogames.coe.ui.buttons.NavButton;
 import net.pacogames.coe.ui.buttons.PlayButton;
-
-import static net.pacogames.coe.ui.buttons.PlayButton.Property;
 
 public class PlayPage implements MenuPage {
 	
-	List<PlayButton> buttons;
+	private final List<PlayButton> buttons;
 	
-	public PlayPage(Consumer<Property> onPlay) {
+	public PlayPage(Consumer<PlayButton.Property> onPlay) {
 		buttons = new ArrayList<>();
-		buttons.add(new PlayButton(Resources.getTexture("buttons/play/local.png"), onPlay, Property.NORMAL));
-		buttons.add(new PlayButton(Resources.getTexture("buttons/play/ranked.png"), onPlay, Property.TRAINING));
-		buttons.add(new PlayButton(Resources.getTexture("buttons/play/custom2.png"), onPlay, Property.CUSTOM));
+		Runnable playButtonClickListener = () -> onPlay.accept(PlayButton.Property.NORMAL);
+		buttons.add(new PlayButton("local", playButtonClickListener));
+		buttons.add(new PlayButton("ranked", playButtonClickListener));
+		buttons.add(new PlayButton("custom2", playButtonClickListener));
 	}
 	
+	@Override
 	public void render(Batch batch) {
 		for(PlayButton button : buttons) {
 			button.render(batch);
 		}
 	}
 	
+	@Override
 	public void mouseMoved(int x, int y) {
 		for(PlayButton button : buttons) {
 			button.mouseMoved(x, y);
 		}
 	}
 	
+	@Override
+	public void mousePressed(int x, int y) {
+		for(PlayButton button : buttons) {
+			button.mousePressed(x, y);
+		}
+	}
+	
+	@Override
+	public void mouseReleased(int x, int y) {
+		for(PlayButton button : buttons) {
+			button.mouseReleased(x, y);
+		}
+	}
+	
+	@Override
 	public void resize(int x, int width, int height) {
 		positionButtons(x, width, height);
 	}
@@ -50,20 +62,6 @@ public class PlayPage implements MenuPage {
 			//int xPos = width / 2 - (buttons.size() * buttonTexture.getWidth() / 2 + buttons.size() * GAP) + i * (buttonTexture.getWidth() + GAP);
 			int yPos = (height/2 - buttonTexture.getHeight()/2);
 			button.setBounds(xPos, yPos, buttonTexture.getWidth(), buttonTexture.getHeight());
-		}
-	}
-
-	@Override
-	public void mousePressed(int x, int y) {
-		for(PlayButton button : buttons) {
-			button.mousePressed(x, y);
-		}
-	}
-	
-	@Override
-	public void mouseReleased(int x, int y) {
-		for(PlayButton button : buttons) {
-			button.mouseReleased(x, y);
 		}
 	}
 }

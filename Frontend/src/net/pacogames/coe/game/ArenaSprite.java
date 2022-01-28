@@ -10,19 +10,21 @@ public class ArenaSprite {
 	public static final float WIDTH = 2800, HEIGHT = 1800;
 	
 	private final Texture body;
-	private int x = 0, y = 0;
+	private int offsetX = 0, offsetY = 0;
 	
 	public ArenaSprite() {
 		body = Resources.getTexture("map/map.png");
 	}
 	
+	/**Renders the sprite*/
 	public void render(Batch batch) {
-		batch.draw(body, x, y, 2800, 1800);
+		batch.draw(body, offsetX, offsetY, 2800, 1800);
 	}
 	
-	public void setPosition(int x, int y) {
-		this.x = x;
-		this.y = y;
+	/**Sets the offset of the sprite*/
+	public void setOffset(int offsetX, int offsetY) {
+		this.offsetX = offsetX;
+		this.offsetY = offsetY;
 	}
 	
 }

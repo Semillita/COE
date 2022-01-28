@@ -31,16 +31,17 @@ public class NavBar {
 	
 	List<NavButton> buttons;
 	
-	public NavBar (int x,int y, int width, int height, Consumer<PageProperty> onButtonClick) {
+	public NavBar (int x,int y, int width, int height, Consumer<PageProperty> buttonClickListener) {
 		background = Resources.getTexture("colors/black.png");
 		highlight = Resources.getTexture("colors/yellow_highlight_fade.png");
 		var settingsTexture = Resources.getTexture("buttons/nav/settings.png");
 		var playTexture = Resources.getTexture("buttons/nav/play.png");
 		
-		playButton = new NavButton(playTexture, () -> {
-			onButtonClick.accept(PageProperty.PLAY);
-		});
-		settingsButton = new NavButton(settingsTexture, () -> onButtonClick.accept(PageProperty.SETTINGS));
+		Runnable playPageButtonClickListener = () -> buttonClickListener.accept(PageProperty.PLAY);
+		playButton = new NavButton(playTexture, playPageButtonClickListener);
+		
+		Runnable settingsPageButtonClickListener = () -> buttonClickListener.accept(PageProperty.SETTINGS);
+		settingsButton = new NavButton(settingsTexture, settingsPageButtonClickListener);
 		
 		buttons = new ArrayList<>();
 		buttons.add(playButton);

@@ -16,66 +16,69 @@ import net.pacogames.coe.logic.game.runtime.GameLogicImpl;
 
 public class GameScene implements Scene {
 
-	private final int[] keys1 = {
-			Keys.W, Keys.D, Keys.S, Keys.A
-	};
-	
-	private final int[] keys2 = {
-			Keys.UP, Keys.RIGHT, Keys.DOWN, Keys.LEFT
-	};
-	
-	private GameLogic logic;
-	private GameGraphics graphics;
-	
-	public GameScene() {
+	private final int[] keys1 = { Keys.W, Keys.D, Keys.S, Keys.A }, keys2 = { Keys.UP, Keys.RIGHT, Keys.DOWN, Keys.LEFT };
+	private final Runnable onReturn;
+	private final GameLogic logic;
+	private final GameGraphics graphics;
+
+	public GameScene(Runnable onReturn) {
+		this.onReturn = onReturn;
 		logic = new GameLogicImpl();
 		graphics = new GameGraphicsImpl();
 
-		setInputListener();
 		logic.startGame();
+		setInputListener();
 	}
 
+	/**Renders the game*/
 	@Override
-	public void render(Batch batch) {
+	public void render() {
 		logic.loadAdvanceFrames();
 		var currentFrame = logic.getCurrentFrame();
 		
 		var timeElapsed = ((GameLogicImpl) logic).gameTimer.getTimeElapsed(System.nanoTime());
 		
-		graphics.renderFrame(batch, currentFrame);
+		graphics.renderFrame(logic.getCurrentFrame());
 	}
 
+	/**Updates the layout of the game*/
 	@Override
 	public void resize(int width, int height) {
 		graphics.resize(width, height);
 	}
 
+	/**Sets the input listener of the window*/
 	private void setInputListener() {
 		Gdx.input.setInputProcessor(new InputAdapter() {
-			
+
 			@Override
 			public boolean keyDown(int keycode) {
-				 registerInput(keycode, true);
+				registerKeyClick(keycode, true);
 				return false;
 			}
-			
+
 			@Override
 			public boolean keyUp(int keycode) {
-				registerInput(keycode, false);
+				registerKeyClick(keycode, false);
 				return false;
 			}
 		});
 	}
-	
-	private void registerInput(int keycode, boolean pressed) {
-		for(int playerID = 1; playerID <= 2; playerID++) {
+
+	/**Registers a key press event in a player's input queue*/
+	private void registerKeyClick(int keycode, boolean pressed) {
+		for (int playerID = 1; playerID <= 2; playerID++) {
 			var playerKeys = (playerID == 1) ? keys1 : keys2;
-			for(int index = 0; index < 4; index++) {
-				if(keycode == playerKeys[index]) {
+			for (int index = 0; index < 4; index++) {
+				if (keycode == playerKeys[index]) {
 					var key = Key.values()[index];
 					logic.registerInput(playerID, new InputEvent(key, pressed), System.nanoTime());
 				}
 			}
+		}
+		
+		if(keycode == Keys.ESCAPE) {
+			onReturn.run();
 		}
 	}
 }

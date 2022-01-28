@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -18,60 +19,50 @@ import net.pacogames.coe.ui.NavBar;
 import net.pacogames.coe.ui.buttons.Button;
 import net.pacogames.coe.ui.buttons.PlayButton;
 
-public class MainMenu implements Scene {
-
-	private final Runnable onPlay;
-
-	private Camera camera;
-	private Viewport viewport;
-	private MenuPage page;
-	private NavBar navBar;
-	private Texture bg;
-	private Texture logo;
+public class MainMenuScene implements Scene {
 
 	private final int VIEWPORT_WIDTH = 3840, VIEWPORT_HEIGHT = 2160;
+	private final Runnable onPlay;
+	private final Camera camera;
+	private final Viewport viewport;
+	private final Batch batch;
+	private final NavBar navBar;
+	private final Texture bg;
+	private final Texture logo;
+	
+	private MenuPage page;
 
-	public MainMenu(Runnable onPlay) {
+	public MainMenuScene(Runnable onPlay) {
 		this.onPlay = onPlay;
 		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
 		viewport = new ExtendViewport(3840, 2160, camera);
+		
+		batch = new SpriteBatch();
 		navBar = new NavBar((int) (VIEWPORT_WIDTH - viewport.getWorldWidth()) / 2,
-				(int) viewport.getWorldHeight() - 200, (int) viewport.getWorldWidth(), 200, (property) -> {
-					switch (property) {
-					case PLAY:
-						setPage(new PlayPage((prop) -> {
-							if (prop == PlayButton.Property.NORMAL) {
-								onPlay.run();
-							}
-						}));
-						break;
-					case SETTINGS:
-						setPage(new SettingsPage());
-					}
-				});
-		setInputListener();
+				(int) viewport.getWorldHeight() - 200, (int) viewport.getWorldWidth(), 200, this::navigationButtonClickListener);
 
-		page = new PlayPage((prop) -> {
-			if (prop == PlayButton.Property.NORMAL) {
-				onPlay.run();
-			}
-		});
 		bg = Resources.getTexture("backgrounds/main_menu_high_res.png");
 		logo = Resources.getTexture("backgrounds/main_menu_logo.png");
+
+		page = new PlayPage(this::playButtonClickListener);
+		setInputListener();
 	}
 
 	@Override
-	public void render(Batch batch) {
+	public void render() {
+		batch.begin();
 		batch.setProjectionMatrix(camera.combined);
+		
 		batch.draw(bg, (viewport.getWorldWidth() - VIEWPORT_WIDTH) / 2,
 				(viewport.getWorldHeight() - VIEWPORT_HEIGHT) / 2, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
 		batch.draw(logo, (viewport.getWorldWidth() - VIEWPORT_WIDTH) / 2,
 				(viewport.getWorldHeight() - VIEWPORT_HEIGHT) / 2, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+		
 		navBar.render(batch);
 		page.render(batch);
-		page.resize((int) (viewport.getWorldWidth() - VIEWPORT_WIDTH) / 2, (int) viewport.getWorldWidth(),
-				(int) viewport.getWorldHeight() - 200);
+		
+		batch.end();
 	}
 
 	@Override
@@ -88,7 +79,7 @@ public class MainMenu implements Scene {
 				(int) viewport.getWorldHeight() - 200);
 	}
 
-	public void setInputListener() {
+	private void setInputListener() {
 		Gdx.input.setInputProcessor(new InputAdapter() {
 
 			@Override
@@ -134,7 +125,25 @@ public class MainMenu implements Scene {
 
 	private void setPage(MenuPage page) {
 		if (page.getClass() != this.page.getClass()) {
+			page.resize((int) (viewport.getWorldWidth() - VIEWPORT_WIDTH) / 2, (int) viewport.getWorldWidth(), (int) viewport.getWorldHeight() - 200);
 			this.page = page;
+			
+		}
+	}
+	
+	private void navigationButtonClickListener(PageProperty property) {
+		switch (property) {
+		case PLAY:
+			setPage(new PlayPage(this::playButtonClickListener));
+			break;
+		case SETTINGS:
+			setPage(new SettingsPage());
+		}
+	}
+	
+	private void playButtonClickListener(PlayButton.Property property) {
+		if (property == PlayButton.Property.NORMAL) {
+			onPlay.run();
 		}
 	}
 
