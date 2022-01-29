@@ -120,23 +120,28 @@ public class GameLogicImpl implements GameLogic {
 
 			float secondsLeft = timeLeft / 1_000_000_000f;
 
-			Vector2 p1distance = new Vector2(p1momentum.x * secondsLeft + p1movement.x * speed * secondsLeft,
-					p1momentum.y * secondsLeft + p1movement.y * speed * secondsLeft);
-			Vector2 p2distance = new Vector2(p2momentum.x * secondsLeft + p2movement.x * speed * secondsLeft,
-					p2momentum.y * secondsLeft + p2movement.y * speed * secondsLeft);
+//			Vector2 p1distance = new Vector2(p1momentum.x * secondsLeft + p1movement.x * speed * secondsLeft,
+//					p1momentum.y * secondsLeft + p1movement.y * speed * secondsLeft);
+//			Vector2 p2distance = new Vector2(p2momentum.x * secondsLeft + p2movement.x * speed * secondsLeft,
+//					p2momentum.y * secondsLeft + p2movement.y * speed * secondsLeft);
 
-			// Här vill jag nog snarare bara definiera distance som det avstånd som skapas av momentumet, 
-			// och sedan kolla ifall kraftens riktning stämmer ihop med momentumet i respektive riktning 
-			// varpå jag adderar det till distance förutsatt att lastCollision.event != Collision.Event.P1P2X/Y 
-			// och annars vill jag sakta ner momentumet med timeLeft * [konstant för manuell retardation] i rätt dimension.
+			Vector2 p1distance = new Vector2(p1momentum.x * secondsLeft, p1momentum.y * secondsLeft);
+			Vector2 p2distance = new Vector2(p2momentum.x * secondsLeft, p2momentum.y * secondsLeft);
 			
-			if (lastCollision != null && lastCollision.event == Collision.Event.P1P2X) {
-					// I slutet av senaste intervallet krockade spelarna i x-axeln, så de har fått
-					// nya momentum (troligtvis), så jag ska nu kolla ifall de fortfarande försöker gå förbi varandra.
-					// Vill troligtvis applicera kraften på momentumet så tidigt som möjligt i framen, kan nog vara okej 
-					// att ta det lite för tidigt för att vara 100% logiskt när jag har hög frame rate. 
-				
-				
+			if((p1movement.x >= 0  && p1momentum.x >= 0) || (p1movement.x <= 0 && p1momentum.x <= 0)) {
+				p1distance.x += p1movement.x * speed * secondsLeft;
+			}
+			
+			if((p1movement.y >= 0  && p1momentum.y >= 0) || (p1movement.y <= 0 && p1momentum.y <= 0)) {
+				p1distance.y += p1movement.y * speed * secondsLeft;
+			}
+			
+			if((p2movement.x >= 0  && p2momentum.x >= 0) || (p2movement.x <= 0 && p2momentum.x <= 0)) {
+				p2distance.x += p2movement.x * speed * secondsLeft;
+			}
+			
+			if((p2movement.y >= 0  && p2momentum.y >= 0) || (p2movement.y <= 0 && p2momentum.y <= 0)) {
+				p2distance.y += p2movement.y * speed * secondsLeft;
 			}
 
 			Collision c = physics.getNextCollision(p1pos, p2pos, p1distance, p2distance, p1momentum, p2momentum,
