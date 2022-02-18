@@ -15,9 +15,9 @@ public class PlayPage implements MenuPage {
 	public PlayPage(Consumer<PlayButton.Property> onPlay) {
 		buttons = new ArrayList<>();
 		Runnable playButtonClickListener = () -> onPlay.accept(PlayButton.Property.NORMAL);
-		buttons.add(new PlayButton("local", playButtonClickListener));
-		buttons.add(new PlayButton("ranked", playButtonClickListener));
-		buttons.add(new PlayButton("custom2", playButtonClickListener));
+		buttons.add(new PlayButton("normal", playButtonClickListener));
+		buttons.add(new PlayButton("2v2", playButtonClickListener));
+		buttons.add(new PlayButton("custom", playButtonClickListener));
 	}
 	
 	@Override

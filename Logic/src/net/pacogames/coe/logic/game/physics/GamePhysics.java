@@ -15,31 +15,48 @@ public class GamePhysics {
 		Hitbox p1box = new PlayerHitbox(p1pos);
 		Hitbox p2box = new PlayerHitbox(p2pos);
 		
-		Collision p1arena = getArenaCollision(p1box, p1pos, p1distance, timeLeft);
-		Collision p2arena = getArenaCollision(p2box, p2pos, p2distance, timeLeft);
-		Collision p1p2 = getPlayerCollision(p1box, p2box, p1pos, p2pos, p1distance, p2distance, timeLeft);
+		Collision p1arenaCollision = getArenaCollision(p1box, p1pos, p1distance, timeLeft);
+		Collision p2arenaCollision = getArenaCollision(p2box, p2pos, p2distance, timeLeft);
+		Collision p1p2Collision = getPlayerCollision(p1box, p2box, p1pos, p2pos, p1distance, p2distance, timeLeft);
 
-		if (p1arena == null && p2arena == null && p1p2 == null) {
-			return null;
-		}
+//		if (p1arenaCollision == null && p2arenaCollision == null && p1p2Collision == null) {
+//			return null;
+//		}
 
-		if (p1arena != null && (p2arena == null || p1arena.time < p2arena.time)
-				&& (p1p2 == null || p1arena.time < p1p2.time)) {
-			return new Collision(p1arena.time,
-					(p1arena.event == Collision.Event.ARENAX) ? Collision.Event.P1ARENAX : Collision.Event.P1ARENAY);
-		} else if (p2arena != null && (p1p2 == null || p2arena.time < p1p2.time)) {
-			return new Collision(p2arena.time,
-					(p2arena.event == Collision.Event.ARENAX) ? Collision.Event.P2ARENAX : Collision.Event.P2ARENAY);
-		} else {
-			return p1p2;
+		Collision earlistCollision = null;
+		
+		if (p1arenaCollision != null) {
+			p1arenaCollision.event = (p1arenaCollision.event == Collision.Event.ARENAX) ? Collision.Event.P1ARENAX : Collision.Event.P1ARENAY;
+			earlistCollision = p1arenaCollision;
 		}
+		
+		if (p2arenaCollision != null && (earlistCollision == null || p2arenaCollision.time < earlistCollision.time)) {
+			p2arenaCollision.event = (p2arenaCollision.event == Collision.Event.ARENAX) ? Collision.Event.P2ARENAX : Collision.Event.P2ARENAY;
+			earlistCollision = p2arenaCollision;
+		}
+		
+		if (p1p2Collision != null && (earlistCollision == null || p1p2Collision.time < earlistCollision.time)) {
+			earlistCollision = p1p2Collision;
+		}
+		
+		return earlistCollision;
+		
+//		if (p1arenaCollision != null && (p2arenaCollision == null || p1arenaCollision.time < p2arenaCollision.time)
+//				&& (p1p2Collision == null || p1arenaCollision.time < p1p2Collision.time)) {
+//			return new Collision(p1arenaCollision.time,
+//					(p1arenaCollision.event == Collision.Event.ARENAX) ? Collision.Event.P1ARENAX : Collision.Event.P1ARENAY);
+//		} else if (p2arenaCollision != null && (p1p2Collision == null || p2arenaCollision.time < p1p2Collision.time)) {
+//			return new Collision(p2arenaCollision.time,
+//					(p2arenaCollision.event == Collision.Event.ARENAX) ? Collision.Event.P2ARENAX : Collision.Event.P2ARENAY);
+//		} else {
+//			return p1p2Collision;
+//		}
 	}
 	
 	private Collision getPlayerCollision(Hitbox source1, Hitbox source2, Point p1pos, Point p2pos, Vector2 p1distance, Vector2 p2distance, float timeLeft) {
 		Hitbox target1 = new PlayerHitbox(new Point(p1pos.x + p1distance.x, p1pos.y + p1distance.y));
 		Hitbox target2 = new PlayerHitbox(new Point(p2pos.x + p2distance.x, p2pos.y + p2distance.y));
 		
-		// Kollar ifall p1 höger kolliderar med p2 vänster
 		var topBottomOverlap = (source1.top() <= source2.bottom() && target1.top() > target2.bottom());
 		var rightLeftOverlap = (source1.right() <= source2.left() && target1.right() > target2.left());
 		var bottomTopOverlap = (source1.bottom() >= source2.top() && target1.bottom() < target2.top());
@@ -60,8 +77,6 @@ public class GamePhysics {
 			if((left1 >= left2 && left1 < right2) || (right1 > left2 && right1 <= right2)) {
 				c = new Collision(slice * timeLeft, Event.P1P2Y);
 			}
-			
-			//c = new Collision(time, Event.P1P2Y);
 		}
 		
 		if(rightLeftOverlap) {
@@ -171,6 +186,38 @@ public class GamePhysics {
 		}
 		
 		return c;
+	}
+	
+	public boolean isCollisionCausedByMomentum(Collision collision, Vector2 p1momentum, Vector2 p2momentum, Point p1position, Point p2position) {
+		if(collision == null) {
+			throw new RuntimeException("Cannot check if collision is caused by momentum because 'collision' is null");
+		}
+		
+		switch(collision.event) {
+		case P1ARENAX:
+			return p1momentum.x != 0;
+		case P1ARENAY:
+			return p1momentum.y != 0;
+		case P2ARENAX:
+			return p2momentum.x != 0;
+		case P2ARENAY:
+			return p2momentum.y != 0;
+		case P1P2X:
+			float distanceX = p2position.x - p1position.x;
+			boolean p1MomentumXTowardsP2 = p1momentum.x * distanceX > 0;
+			boolean p2MomentumXTowardsP1 = p2momentum.x * distanceX > 0;
+			
+			return p1MomentumXTowardsP2 || p2MomentumXTowardsP1;
+		case P1P2Y:
+			float distanceY = p2position.y - p1position.y;
+			boolean p1MomentumYTowardsP2 = p1momentum.y * distanceY > 0;
+			boolean p2MomentumYTowardsP1 = p2momentum.y * distanceY > 0;
+			
+			return p1MomentumYTowardsP2 || p2MomentumYTowardsP1;
+		default:
+			System.err.println("Fel typ av collision event användes i isCollisionCausedByMomentum!");
+			return false;
+		}
 	}
 	
 	public Vector2 getMovement(Map<Key, Boolean> inputs) {

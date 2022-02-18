@@ -2,7 +2,7 @@ package net.pacogames.coe.logic.game.physics;
 
 public class Collision {
 	public final float time;
-	public final Event event;
+	public Event event;
 
 	public Collision(float f, Event event) {
 		this.time = f;

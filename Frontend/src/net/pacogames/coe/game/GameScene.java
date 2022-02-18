@@ -8,6 +8,7 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
+import net.pacogames.coe.COE;
 import net.pacogames.coe.Scene;
 import net.pacogames.coe.logic.game.input.InputEvent;
 import net.pacogames.coe.logic.game.input.Key;
@@ -16,7 +17,7 @@ import net.pacogames.coe.logic.game.runtime.GameLogicImpl;
 
 public class GameScene implements Scene {
 
-	private final int[] keys1 = { Keys.W, Keys.D, Keys.S, Keys.A }, keys2 = { Keys.UP, Keys.RIGHT, Keys.DOWN, Keys.LEFT };
+	private final int[] keys1 = { Keys.W, Keys.D, Keys.S, Keys.A, Keys.SPACE }, keys2 = { Keys.UP, Keys.RIGHT, Keys.DOWN, Keys.LEFT, Keys.ENTER };
 	private final Runnable onReturn;
 	private final GameLogic logic;
 	private final GameGraphics graphics;
@@ -38,7 +39,11 @@ public class GameScene implements Scene {
 		
 		var timeElapsed = ((GameLogicImpl) logic).gameTimer.getTimeElapsed(System.nanoTime());
 		
-		graphics.renderFrame(logic.getCurrentFrame());
+		graphics.renderFrame(currentFrame);
+		
+		if (currentFrame.gameOver) {
+			COE.getApp().endGame();
+		}
 	}
 
 	/**Updates the layout of the game*/
@@ -69,7 +74,7 @@ public class GameScene implements Scene {
 	private void registerKeyClick(int keycode, boolean pressed) {
 		for (int playerID = 1; playerID <= 2; playerID++) {
 			var playerKeys = (playerID == 1) ? keys1 : keys2;
-			for (int index = 0; index < 4; index++) {
+			for (int index = 0; index < 5; index++) {
 				if (keycode == playerKeys[index]) {
 					var key = Key.values()[index];
 					logic.registerInput(playerID, new InputEvent(key, pressed), System.nanoTime());

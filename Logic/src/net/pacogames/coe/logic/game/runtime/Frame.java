@@ -11,10 +11,12 @@ public class Frame {
 	public final long stamp;
 	public PlayerFrameData player1data;
 	public PlayerFrameData player2data;
+	public boolean gameOver;
 	
-	public Frame(long stamp, PlayerFrameData player1, PlayerFrameData player2) {
+	public Frame(long stamp, PlayerFrameData player1, PlayerFrameData player2, boolean gameOver) {
 		this.stamp = stamp;
 		this.player1data = player1;
 		this.player2data = player2;
+		this.gameOver = gameOver;
 	}
 }

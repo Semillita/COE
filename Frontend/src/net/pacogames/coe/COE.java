@@ -20,4 +20,8 @@ public class COE {
 		app = new Application();
 		new LwjglApplication(app, config);
 	}
+	
+	public static Application getApp() {
+		return app;
+	}
 }

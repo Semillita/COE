@@ -37,11 +37,11 @@ public class GameGraphicsImpl implements GameGraphics {
 		batch.begin();
 		batch.setProjectionMatrix(camera.combined);
 		
-		arena.render(batch);
 		var p1pos = frame.player1data.pos;
 		player1.render(batch, p1pos.x, p1pos.y);
 		var p2pos = frame.player2data.pos;
 		player2.render(batch, p2pos.x, p2pos.y);
+		arena.render(batch);
 		
 		batch.end();
 	}
