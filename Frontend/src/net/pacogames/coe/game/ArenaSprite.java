@@ -13,12 +13,13 @@ public class ArenaSprite {
 	private int offsetX = 0, offsetY = 0;
 	
 	public ArenaSprite() {
-		body = Resources.getTexture("map/map.png");
+		body = Resources.getTexture("map/arena.png");
 	}
 	
 	/**Renders the sprite*/
 	public void render(Batch batch) {
-		batch.draw(body, offsetX, offsetY, 2800, 1800);
+		//batch.draw(body, offsetX, offsetY, 2800, 1800);
+		batch.draw(body, 0, 0, 3840, 2160);
 	}
 	
 	/**Sets the offset of the sprite*/

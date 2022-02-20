@@ -185,7 +185,7 @@ public class GameLogicImpl implements GameLogic {
 
 				applyRetardation(p1momentum, autoRetardation, p1manualRetardation);
 				applyRetardation(p2momentum, autoRetardation, p2manualRetardation);
-				
+
 				if (shouldPlayerDie(p1pos) || shouldPlayerDie(p2pos)) {
 					isGameOver = true;
 				}
@@ -280,7 +280,7 @@ public class GameLogicImpl implements GameLogic {
 
 				frameTimeElapsed += collision.time;
 				lastCollision = collision;
-				
+
 				if (shouldPlayerDie(p1pos) || shouldPlayerDie(p2pos)) {
 					isGameOver = true;
 				}
@@ -298,7 +298,7 @@ public class GameLogicImpl implements GameLogic {
 
 		return new Frame(framestamp, player1data, player2data, lastFrame.gameOver || isGameOver);
 	}
-	
+
 	/**
 	 * Applies the distance created by a player walking to that player's total
 	 * distance in each axis respectively, provided that the player is walking in

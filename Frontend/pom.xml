@@ -23,10 +23,15 @@
 			<version>1.10.0</version>
 		</dependency>
 		<dependency>
-            <groupId>com.badlogicgames.gdx</groupId>
-            <artifactId>gdx-platform</artifactId>
-            <version>1.9.11</version>
-            <classifier>natives-desktop</classifier>
+			<groupId>com.badlogicgames.gdx</groupId>
+			<artifactId>gdx-platform</artifactId>
+			<version>1.9.11</version>
+			<classifier>natives-desktop</classifier>
+		</dependency>
+		<dependency>
+			<groupId>net.pacogames.coe</groupId>
+			<artifactId>Logic</artifactId>
+			<version>0.0.1-Alpha</version>
 		</dependency>
 	</dependencies>
 	<build>
@@ -46,6 +51,36 @@
 				<configuration>
 					<release>10</release>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>net.pacogames.coe.COE</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>3.1.1</version>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
