@@ -1,5 +1,6 @@
 package net.pacogames.coe.logic.utils;
 
+/**Utility class to represent a decimal value point in the world*/
 public class Point {
 
 	public float x, y;

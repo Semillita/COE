@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 
 import net.pacogames.coe.logic.game.runtime.Frame;
 
+/**Interface for the {@link GameScene} to interact with the graphics part*/
 public interface GameGraphics {
 
 	/**Renders a frame*/

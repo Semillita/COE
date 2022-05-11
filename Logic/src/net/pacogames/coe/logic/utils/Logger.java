@@ -1,5 +1,6 @@
 package net.pacogames.coe.logic.utils;
 
+/**Utility class for logging with turning on and off*/
 public class Logger {
 
 	public static boolean flag = false;

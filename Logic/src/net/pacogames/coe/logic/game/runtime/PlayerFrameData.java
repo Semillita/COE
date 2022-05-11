@@ -6,6 +6,7 @@ import net.pacogames.coe.logic.game.input.Key;
 import net.pacogames.coe.logic.utils.Point;
 import net.pacogames.coe.logic.utils.Vector2;
 
+/**Data about a player in a frame*/
 public class PlayerFrameData {
 
 	public final Point pos;

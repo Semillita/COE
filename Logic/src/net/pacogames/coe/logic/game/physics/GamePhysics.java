@@ -3,11 +3,13 @@ package net.pacogames.coe.logic.game.physics;
 import java.util.Map;
 
 import net.pacogames.coe.logic.game.input.Key;
+import net.pacogames.coe.logic.utils.Movement;
 import net.pacogames.coe.logic.utils.Point;
 import net.pacogames.coe.logic.utils.Vector2;
 
 import static net.pacogames.coe.logic.game.physics.Collision.Event;
 
+/**Utility class for physics*/
 public class GamePhysics {
 	
 	public Collision getNextCollision(Point p1pos, Point p2pos, Vector2 p1distance, Vector2 p2distance, 
@@ -18,10 +20,6 @@ public class GamePhysics {
 		Collision p1arenaCollision = getArenaCollision(p1box, p1pos, p1distance, timeLeft);
 		Collision p2arenaCollision = getArenaCollision(p2box, p2pos, p2distance, timeLeft);
 		Collision p1p2Collision = getPlayerCollision(p1box, p2box, p1pos, p2pos, p1distance, p2distance, timeLeft);
-
-//		if (p1arenaCollision == null && p2arenaCollision == null && p1p2Collision == null) {
-//			return null;
-//		}
 
 		Collision earlistCollision = null;
 		
@@ -220,9 +218,9 @@ public class GamePhysics {
 		}
 	}
 	
-	public Vector2 getMovement(Map<Key, Boolean> inputs) {
+	public Movement getMovement(Map<Key, Boolean> inputs) {
 		int movementX = (inputs.get(Key.RIGHT) ? 1 : 0) - (inputs.get(Key.LEFT) ? 1 : 0);
 		int movementY = (inputs.get(Key.UP) ? 1 : 0) - (inputs.get(Key.DOWN) ? 1 : 0);
-		return new Vector2(movementX, movementY);
+		return new Movement(movementX, movementY);
 	}
 }

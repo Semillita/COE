@@ -8,10 +8,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import net.pacogames.coe.game.GameScene;
 import net.pacogames.coe.menu.MainMenuScene;
 
+/**Parent class that owns all components of the application*/
 public class Application extends ApplicationAdapter {
 
 	private Scene scene;
-
+	
 	/**Initializes basic components*/
 	@Override
 	public void create() {
@@ -22,7 +23,7 @@ public class Application extends ApplicationAdapter {
 	/**Clears the window's frame buffer and renders the current scene*/
 	@Override
 	public void render() {
-		Gdx.gl.glClearColor(1, 1, 1, 1);
+		Gdx.gl.glClearColor(241f / 256, 226f / 256, 203f / 256, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		scene.render();

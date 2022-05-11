@@ -1,5 +1,6 @@
 package net.pacogames.coe.logic.game.runtime;
 
+/**Utility class for timer related things*/
 public class GameTimer {
 
 	/**The match's starting time stamp in nanoseconds*/

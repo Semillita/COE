@@ -3,6 +3,7 @@ package net.pacogames.coe.logic.game.physics;
 import net.pacogames.coe.logic.game.Player;
 import net.pacogames.coe.logic.utils.Point;
 
+/**The players' implementation of {@link Hitbox}*/
 public class PlayerHitbox implements Hitbox {
 
 	private final float x, y;

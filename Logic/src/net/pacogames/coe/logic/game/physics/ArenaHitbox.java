@@ -1,5 +1,6 @@
 package net.pacogames.coe.logic.game.physics;
 
+/**The arena's implementation of {@link Hitbox}*/
 public class ArenaHitbox implements Hitbox {
 
 	public static final float KILL_ZONE = 300;

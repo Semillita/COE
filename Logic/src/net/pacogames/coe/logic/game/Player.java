@@ -1,5 +1,6 @@
 package net.pacogames.coe.logic.game;
 
+/**Utility class for player constants*/
 public class Player {
 
 	public static final float SPEED = 600;

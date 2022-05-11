@@ -1,5 +1,6 @@
 package net.pacogames.coe.logic.utils;
 
+/**Utility class to represent a decimal value vector*/
 public class Vector2 {
 
 	public float x, y;

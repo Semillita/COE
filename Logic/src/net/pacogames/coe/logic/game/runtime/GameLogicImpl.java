@@ -1,7 +1,6 @@
 package net.pacogames.coe.logic.game.runtime;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,10 +13,11 @@ import net.pacogames.coe.logic.game.Player;
 import net.pacogames.coe.logic.game.input.InputEvent;
 import net.pacogames.coe.logic.game.input.Key;
 import net.pacogames.coe.logic.game.physics.GamePhysics;
-import net.pacogames.coe.logic.utils.Logger;
+import net.pacogames.coe.logic.utils.Movement;
 import net.pacogames.coe.logic.utils.Point;
 import net.pacogames.coe.logic.utils.Vector2;
 
+/** Controller class for the logic of the game */
 public class GameLogicImpl implements GameLogic {
 
 	private Map<Long, Frame> frames;
@@ -40,12 +40,18 @@ public class GameLogicImpl implements GameLogic {
 		physics = new GamePhysics();
 	}
 
+	/** Starts the game */
 	@Override
 	public void startGame() {
 		createFirstFrame();
 		gameTimer.start();
 	}
 
+	/**
+	 * Returns the current frame
+	 * 
+	 * @return the {@link Frame} object
+	 */
 	@Override
 	public Frame getCurrentFrame() {
 		var timeElapsed = gameTimer.getTimeElapsed(System.nanoTime());
@@ -55,6 +61,7 @@ public class GameLogicImpl implements GameLogic {
 		return frames.containsKey(framestamp) ? frames.get(framestamp) : null;
 	}
 
+	/** Loads frames in advance on a separate thread */
 	@Override
 	public void loadAdvanceFrames() {
 		frameLoader.execute(() -> {
@@ -69,6 +76,14 @@ public class GameLogicImpl implements GameLogic {
 		});
 	}
 
+	/**
+	 * Registers an inputevent to a player's input queue at a specified timestamp
+	 * and updates the frames.
+	 * 
+	 * @param playerID  the player that issued the input - 1 or 2
+	 * @param event     the input event
+	 * @param timestamp the timestamp when the input was issued, in nanoseconds
+	 */
 	@Override
 	public void registerInput(int playerID, InputEvent event, long timestamp) {
 		var timeElapsed = gameTimer.getTimeElapsed(timestamp);
@@ -90,13 +105,19 @@ public class GameLogicImpl implements GameLogic {
 		});
 	}
 
+	/**
+	 * Creates a {@link Frame} object at a specific stamp based on the previous
+	 * frame and any new input
+	 * 
+	 * @param framestamp the stamp of the frame that is to be created
+	 */
 	private Frame createFrame(long framestamp) {
 		var lastFrame = frames.get(framestamp - 1);
 		var p1data = lastFrame.player1data;
 		var p2data = lastFrame.player2data;
 
-		var p1movement = (p1data.stun <= 0) ? physics.getMovement(p1data.input) : new Vector2(0, 0);
-		var p2movement = (p2data.stun <= 0) ? physics.getMovement(p2data.input) : new Vector2(0, 0);
+		var p1movement = (p1data.stun <= 0) ? physics.getMovement(p1data.input) : new Movement(0, 0);
+		var p2movement = (p2data.stun <= 0) ? physics.getMovement(p2data.input) : new Movement(0, 0);
 
 		var p1pos = p1data.pos.clone();
 		var p2pos = p2data.pos.clone();
@@ -107,6 +128,9 @@ public class GameLogicImpl implements GameLogic {
 		var p1newInputs = p1inputQueue.get(framestamp);
 		var p2newInputs = p2inputQueue.get(framestamp);
 
+		var p1damage = p1data.damage;
+		var p2damage = p2data.damage;
+
 		float distanceBetweenPlayers = (float) Math
 				.sqrt(Math.pow(p1pos.x - p2pos.x, 2) + Math.pow(p1pos.y - p2pos.y, 2));
 
@@ -114,7 +138,8 @@ public class GameLogicImpl implements GameLogic {
 			for (var event : p1newInputs) {
 				if (event.key == Key.ACTION && event.pressed) {
 					if (distanceBetweenPlayers <= 350) {
-						applyAttack(p1pos, p2pos, p2momentum);
+						applyAttack(p1pos, p2pos, p2momentum, p2damage);
+						p2damage *= 100;
 					}
 				}
 			}
@@ -124,7 +149,8 @@ public class GameLogicImpl implements GameLogic {
 			for (var event : p2newInputs) {
 				if (event.key == Key.ACTION && event.pressed) {
 					if (distanceBetweenPlayers <= 350) {
-						applyAttack(p2pos, p1pos, p1momentum);
+						applyAttack(p2pos, p1pos, p1momentum, p1damage);
+						p1damage *= 10;
 					}
 				}
 			}
@@ -141,8 +167,6 @@ public class GameLogicImpl implements GameLogic {
 		while (true) {
 			final long timeLeft = Frame.LENGTH - frameTimeElapsed;
 			final float secondsLeft = timeLeft / 1_000_000_000f;
-
-			final float speed = Player.SPEED;
 
 			final var p1distance = new Vector2(p1momentum.x * secondsLeft, p1momentum.y * secondsLeft);
 			final var p2distance = new Vector2(p2momentum.x * secondsLeft, p2momentum.y * secondsLeft);
@@ -287,12 +311,12 @@ public class GameLogicImpl implements GameLogic {
 			}
 		}
 		Map<Key, Boolean> p1newInput = applyInputEvents(p1data.input, p1inputQueue.get(framestamp));
-		PlayerFrameData player1data = new PlayerFrameData(p1pos, p1momentum, p1newInput, Math.max(p1data.stun - 1, 0),
-				0);
+		PlayerFrameData player1data = new PlayerFrameData(p1pos, p1momentum, p1newInput,
+				Math.max(p1data.stun - 1, p1damage), 0);
 
 		Map<Key, Boolean> p2newInput = applyInputEvents(p2data.input, p2inputQueue.get(framestamp));
-		PlayerFrameData player2data = new PlayerFrameData(p2pos, p2momentum, p2newInput, Math.max(p2data.stun - 1, 0),
-				0);
+		PlayerFrameData player2data = new PlayerFrameData(p2pos, p2momentum, p2newInput,
+				Math.max(p2data.stun - 1, p2damage), 0);
 
 		lastFramestamp = framestamp;
 
@@ -304,9 +328,7 @@ public class GameLogicImpl implements GameLogic {
 	 * distance in each axis respectively, provided that the player is walking in
 	 * the same direction as any potential momentum the player has in that axis.
 	 * 
-	 * @param movement    a vector representing the player's movement input with
-	 *                    both the x and the y value being either -1, 0 or 1 based
-	 *                    on positive/negative direction
+	 * @param movement    the player's movement indicator
 	 * @param momentum    a vector containing the player's momentum in the x and y
 	 *                    axes
 	 * @param distance    a vector containing the distance a player aims to move
@@ -335,7 +357,7 @@ public class GameLogicImpl implements GameLogic {
 	 * @param receiverPos      the position of the receiving player
 	 * @param receiverMomentum the momentum of the receiving player
 	 */
-	private void applyAttack(Point attackerPos, Point receiverPos, Vector2 receiverMomentum) {
+	private void applyAttack(Point attackerPos, Point receiverPos, Vector2 receiverMomentum, float receiverDamage) {
 		float absDistanceX = Math.abs(attackerPos.x - receiverPos.x);
 		float absDistanceY = Math.abs(attackerPos.y - receiverPos.y);
 
@@ -344,11 +366,14 @@ public class GameLogicImpl implements GameLogic {
 		float xPart = absDistanceX / totalDistance;
 		float yPart = absDistanceY / totalDistance;
 
-		float boostX = xPart * Player.FORCE * ((attackerPos.x < receiverPos.x) ? 1 : -1);
-		float boostY = yPart * Player.FORCE * ((attackerPos.y < receiverPos.y) ? 1 : -1);
+		var damageMultiplier = 1 + receiverDamage / 10;
+
+		float boostX = xPart * Player.FORCE * damageMultiplier * ((attackerPos.x < receiverPos.x) ? 1 : -1);
+		float boostY = yPart * Player.FORCE * damageMultiplier * ((attackerPos.y < receiverPos.y) ? 1 : -1);
 
 		receiverMomentum.x += boostX;
 		receiverMomentum.y += boostY;
+
 	}
 
 	/**
@@ -425,9 +450,7 @@ public class GameLogicImpl implements GameLogic {
 	 * Returns a Vector2 object representing the manual retardation a player creates
 	 * by walking in opposite direction of the momentum in both axes respectively.
 	 * 
-	 * @param movement    a vector representing the player's movement input with
-	 *                    both the x and the y value being either -1, 0 or 1 based
-	 *                    on positive/negative direction
+	 * @param movement    the player's movement indicator
 	 * @param momentum    a vector containing the player's momentum in the x and y
 	 *                    axes
 	 * @param seconds     the length of the time interval for which the manual
@@ -435,7 +458,7 @@ public class GameLogicImpl implements GameLogic {
 	 * @param retardation a constant for manual retardation
 	 * @return a vector containing the manual retardation values in the x and y axes
 	 */
-	private Vector2 getManualRetardation(Vector2 movement, Vector2 momentum, float seconds, float retardation) {
+	private Vector2 getManualRetardation(Movement movement, Vector2 momentum, float seconds, float retardation) {
 		float retardationX = 0, retardationY = 0;
 
 		if (movement.x * momentum.x < 0) {

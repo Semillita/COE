@@ -3,6 +3,7 @@ package net.pacogames.coe.logic.game.runtime;
 import java.util.List;
 import java.util.Map;
 
+/**Data about players and more in a frame*/
 public class Frame {
 
 	//Frame length in milliseconds

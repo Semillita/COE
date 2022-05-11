@@ -19,6 +19,7 @@ import net.pacogames.coe.ui.NavBar;
 import net.pacogames.coe.ui.buttons.Button;
 import net.pacogames.coe.ui.buttons.PlayButton;
 
+/**The main menu's implementation of the {@link Scene} interface*/
 public class MainMenuScene implements Scene {
 
 	private final int VIEWPORT_WIDTH = 3840, VIEWPORT_HEIGHT = 2160;
@@ -49,6 +50,7 @@ public class MainMenuScene implements Scene {
 		setInputListener();
 	}
 
+	/**Renders the main manu*/
 	@Override
 	public void render() {
 		batch.begin();
@@ -65,6 +67,10 @@ public class MainMenuScene implements Scene {
 		batch.end();
 	}
 
+	/**Updates the layout of the main menu
+	 * 
+	 * @param width the new width of the window
+	 * @param height the new height of the window*/
 	@Override
 	public void resize(int width, int height) {
 		viewport.update(width, height, true);
@@ -79,6 +85,10 @@ public class MainMenuScene implements Scene {
 				(int) viewport.getWorldHeight() - 200);
 	}
 
+	/**Sets the input listener of the window
+	 * 
+	 * Cretes a new instance of {@link InputAdapter} with overridden methods for
+	 * handling mouse input*/
 	private void setInputListener() {
 		Gdx.input.setInputProcessor(new InputAdapter() {
 
@@ -123,6 +133,10 @@ public class MainMenuScene implements Scene {
 		});
 	}
 
+	/**Sets the current menu page
+	 * 
+	 * @param page the new page
+	 * */
 	private void setPage(MenuPage page) {
 		if (page.getClass() != this.page.getClass()) {
 			page.resize((int) (viewport.getWorldWidth() - VIEWPORT_WIDTH) / 2, (int) viewport.getWorldWidth(), (int) viewport.getWorldHeight() - 200);
@@ -131,6 +145,7 @@ public class MainMenuScene implements Scene {
 		}
 	}
 	
+	/**Changes the page based on the property of the navigation button pressed*/
 	private void navigationButtonClickListener(PageProperty property) {
 		switch (property) {
 		case PLAY:

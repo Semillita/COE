@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 
 import net.pacogames.coe.resources.Resources;
 
+/**Class for play button specific actions*/
 public class PlayButton extends Button {
 	
 	private Texture hoverTexture;
