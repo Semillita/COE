@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
+/**Slider UI element*/
 public class Slider extends Button{
 
 	private float value;
@@ -23,9 +24,9 @@ public class Slider extends Button{
 	@Override
 	public void mouseMoved(int x, int y) {
 		super.mouseMoved(x, y);
-		if(super.pressed && x >= getX() && x < getX() + getWidth()) {
-			value = (float) (x - getX()) / getWidth();
-			if (value >= 0.99) {
+		if(super.pressed) {
+			value = Math.min(1, Math.max(0, (float) (x - getX()) / getWidth()));
+			if (value == 1) {
 				Gdx.app.exit();
 			}
 		}

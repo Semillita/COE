@@ -7,19 +7,16 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 
 import net.pacogames.coe.resources.Resources;
 
+/**Class for play button specific actions*/
 public class PlayButton extends Button {
 	
-private Consumer<Property> onClick;
-
-private Texture hoverTexture;
-
-private Property property;
+	private Texture hoverTexture;
+	private Runnable onClick;
 	
-	public PlayButton(Texture texture, Consumer<Property> onClick, Property property) {
-		super(texture);
-		this.property = property;
-		this.onClick = onClick;
+	public PlayButton(String name, Runnable onClick) {
+		super(Resources.getTexture("buttons/play/" + name + ".png"));
 		hoverTexture = Resources.getTexture("colors/white_transparent.png");
+		this.onClick = onClick;
 	}
 	
 	@Override
@@ -35,7 +32,7 @@ private Property property;
 	
 	@Override
 	protected void onClick() {
-		onClick.accept(property);
+		onClick.run();
 	}
 	
 	public static enum Property{

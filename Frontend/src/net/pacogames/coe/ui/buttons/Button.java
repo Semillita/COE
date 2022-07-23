@@ -5,7 +5,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 
-public class Button {
+/**Parent class for all types of buttons*/
+public abstract class Button {
 	
 	private Texture body;
 	protected int x, y;
@@ -62,7 +63,7 @@ public class Button {
 	}
 	
 	protected void onEnter() {
-	
+		
 	}
 	
 	protected void onExit() {

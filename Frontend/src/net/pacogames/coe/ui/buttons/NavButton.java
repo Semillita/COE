@@ -3,6 +3,7 @@ package net.pacogames.coe.ui.buttons;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
+/**Button in the navigation bar*/
 public class NavButton extends Button {
 
 	private Runnable onClick;

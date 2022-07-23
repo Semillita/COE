@@ -21,6 +21,7 @@ import net.pacogames.coe.ui.buttons.NavButton;
 public class NavBar {
 	
 	private Texture background;
+	private Texture highlight;
 	private int x, y, width, height;
 	
 	private NavButton settingsButton;
@@ -30,15 +31,17 @@ public class NavBar {
 	
 	List<NavButton> buttons;
 	
-	public NavBar (int x,int y, int width, int height, Consumer<PageProperty> onButtonClick) {
+	public NavBar (int x,int y, int width, int height, Consumer<PageProperty> buttonClickListener) {
 		background = Resources.getTexture("colors/black.png");
+		highlight = Resources.getTexture("colors/yellow_highlight_fade.png");
 		var settingsTexture = Resources.getTexture("buttons/nav/settings.png");
 		var playTexture = Resources.getTexture("buttons/nav/play.png");
 		
-		playButton = new NavButton(playTexture, () -> {
-			onButtonClick.accept(PageProperty.PLAY);
-		});
-		settingsButton = new NavButton(settingsTexture, () -> onButtonClick.accept(PageProperty.SETTINGS));
+		Runnable playPageButtonClickListener = () -> buttonClickListener.accept(PageProperty.PLAY);
+		playButton = new NavButton(playTexture, playPageButtonClickListener);
+		
+		Runnable settingsPageButtonClickListener = () -> buttonClickListener.accept(PageProperty.SETTINGS);
+		settingsButton = new NavButton(settingsTexture, settingsPageButtonClickListener);
 		
 		buttons = new ArrayList<>();
 		buttons.add(playButton);
@@ -47,6 +50,7 @@ public class NavBar {
 	
 	public void render(Batch batch) {
 		batch.draw(background, x, y, width, height);
+		batch.draw(highlight, 0, y - 5, width, 10);
 		for(NavButton button : buttons) {
 			button.render(batch);
 		}
@@ -81,10 +85,12 @@ public class NavBar {
 	
 	private void positionButtons(final int x, final int y, final int width, final int height) {
 		int xPos = 100 + x;
+		final int buttonHeight = (int) (height * 0.6);
 		for(NavButton button : buttons) {
 			Texture buttonTexture = button.getBody();
-			int yPos = (height - buttonTexture.getHeight())/2 + y;
-			button.setBounds(xPos, yPos, buttonTexture.getWidth(), buttonTexture.getHeight());
+			int buttonWidth = (int) (buttonHeight * buttonTexture.getWidth() / buttonTexture.getHeight());
+			int yPos = (height - buttonHeight)/2 + y;
+			button.setBounds(xPos, yPos, buttonWidth, buttonHeight);
 			xPos += buttonTexture.getWidth() + 100;
 		}
 	}
